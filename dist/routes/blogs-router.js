@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRouter = void 0;
+const blogs_middleware_1 = require("./../middlewares/blogs-middleware");
 const blogs_repo_1 = require("./../repo/blogs-repo");
 const express_1 = require("express");
 exports.blogsRouter = (0, express_1.Router)({});
@@ -13,7 +14,7 @@ exports.blogsRouter.get("/:id", (req, res) => {
     const result = blogs_repo_1.blogsRepo.getSingleBlog(id);
     return res.send(result);
 });
-exports.blogsRouter.post("/", (req, res) => {
+exports.blogsRouter.post("/", blogs_middleware_1.validBlog, blogs_middleware_1.blogsInputValidator, (req, res) => {
     const result = blogs_repo_1.blogsRepo.createBlog("body");
     return res.send(result);
 });
