@@ -1,3 +1,4 @@
+import { BlogModel } from "./../models/blogModel";
 import {
   blogsInputValidator,
   validBlog,
@@ -6,8 +7,8 @@ import { blogsRepo } from "./../repo/blogs-repo";
 import { Router, Request, Response } from "express";
 
 export const blogsRouter = Router({});
-blogsRouter.get("/", (req: Request, res: Response) => {
-  const result = blogsRepo.getAllBlogs();
+blogsRouter.get("/", async (req: Request, res: Response) => {
+  const result = await BlogModel.find({}).lean();
   return res.send(result);
 });
 blogsRouter.get("/:id", (req: Request, res: Response) => {
@@ -19,9 +20,10 @@ blogsRouter.post(
   "/",
   validBlog,
   blogsInputValidator,
-  (req: Request, res: Response) => {
-    const result = blogsRepo.createBlog("body");
-    return res.send(result);
+  async (req: Request, res: Response) => {
+    await BlogModel.create({ name: "Jean-Luc Picard", url: "test URl" });
+    // const result = blogsRepo.createBlog("body");
+    return res.send("test");
   }
 );
 blogsRouter.put("/:id", (req: Request, res: Response) => {

@@ -1,14 +1,11 @@
-import { MongoClient } from "mongodb";
-export const client = new MongoClient(process.env.MONGO_URI!);
-
-export const blogsCollection = client.db("blogs").collection("blogs");
+import { connect, disconnect } from "mongoose";
 
 export const runDB = async () => {
   try {
-    await client.connect();
+    await connect(process.env.MONGO_URI!);
     console.log("Successfully connected to DB");
   } catch (error) {
-    await client.close();
-    console.log("Something went wrong");
+    await disconnect();
+    console.log(error, "Something went wrong");
   }
 };

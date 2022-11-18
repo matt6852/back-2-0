@@ -8,10 +8,14 @@ export const blogsInputValidator = (
   next: NextFunction
 ) => {
   const errors = validationResult(req);
-  console.log(errors);
-
   if (!errors.isEmpty()) {
-    res.status(400).send(errors.array());
+    res
+      .status(400)
+      .send(
+        errors
+          .array({ onlyFirstError: true })
+          .map((e) => ({ message: e.msg, field: e.param }))
+      );
   }
 };
 
