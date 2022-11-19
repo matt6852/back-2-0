@@ -1,17 +1,33 @@
+import { BlogModel, IBlog } from "../models/blogModel";
+
 export const blogsRepo = {
-  getAllBlogs() {
-    return "All blogs";
+  async getAllBlogs() {
+    return await BlogModel.find({}).exec();
   },
-  getSingleBlog(id: string) {
-    return "Single blog";
+  async getSingleBlog(id: string) {
+    try {
+      return await BlogModel.findById(id).exec();
+    } catch (error) {
+      return null;
+    }
   },
-  createBlog(data: string) {
-    return "Created blog";
+  async createBlog(newBlog: IBlog) {
+    return await BlogModel.create(newBlog);
   },
-  updatedBlog(id: string) {
-    return "Updated blog";
+  async updatedBlog(id: string, data: IBlog) {
+    try {
+      const result = await BlogModel.findByIdAndUpdate(id, data);
+      return result;
+    } catch (error) {
+      return null;
+    }
   },
-  deletedBlog(id: string) {
-    return "Delete blog";
+  async deleteBlog(id: string) {
+    try {
+      const result = await BlogModel.findByIdAndDelete(id);
+      return result;
+    } catch (error) {
+      return null;
+    }
   },
 };

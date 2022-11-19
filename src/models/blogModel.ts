@@ -1,13 +1,15 @@
 import { Schema, model } from "mongoose";
 
-interface IBlog {
+export interface IBlog {
   name: string;
-  youtubeUrl: string;
+  description: string;
+  websiteUrl: string;
 }
 
 const blogSchema = new Schema<IBlog>({
   name: { type: String, required: true },
-  youtubeUrl: { type: String, required: true, maxlength: 100 },
+  description: { type: String, required: true, maxlength: 500 },
+  websiteUrl: { type: String, required: true, maxlength: 100 },
 });
 
 export const BlogModel = model<IBlog>("Blog", blogSchema);

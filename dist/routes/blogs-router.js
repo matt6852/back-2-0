@@ -10,32 +10,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRouter = void 0;
-const blogModel_1 = require("./../models/blogModel");
+const blog_service_1 = require("./../services/blog-service");
 const blogs_middleware_1 = require("./../middlewares/blogs-middleware");
-const blogs_repo_1 = require("./../repo/blogs-repo");
 const express_1 = require("express");
+const auth_basic_1 = require("../application/auth-basic");
 exports.blogsRouter = (0, express_1.Router)({});
 exports.blogsRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield blogModel_1.BlogModel.find({}).lean();
+    const result = yield blog_service_1.blogService.getAllBlogs();
     return res.send(result);
 }));
-exports.blogsRouter.get("/:id", (req, res) => {
+exports.blogsRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const result = blogs_repo_1.blogsRepo.getSingleBlog(id);
-    return res.send(result);
-});
-exports.blogsRouter.post("/", blogs_middleware_1.validBlog, blogs_middleware_1.blogsInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield blogModel_1.BlogModel.create({ name: "Jean-Luc Picard", url: "test URl" });
-    // const result = blogsRepo.createBlog("body");
-    return res.send("test");
+    const result = yield blog_service_1.blogService.getSingleBlog(id);
+    if (result) {
+        return res.status(200).send(result);
+    }
+    return res.sendStatus(404);
 }));
-exports.blogsRouter.put("/:id", (req, res) => {
+exports.blogsRouter.post("/", auth_basic_1.authBasic, blogs_middleware_1.validBlog, blogs_middleware_1.blogsInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield blog_service_1.blogService.createBlog(req.body);
+    if (result)
+        return res.status(201).send(result);
+}));
+exports.blogsRouter.put("/:id", auth_basic_1.authBasic, blogs_middleware_1.validBlog, blogs_middleware_1.blogsInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const result = blogs_repo_1.blogsRepo.updatedBlog(id);
-    return res.send(result);
-});
-exports.blogsRouter.delete("/:id", (req, res) => {
+    const result = yield blog_service_1.blogService.updateBlog(id, req.body);
+    if (result)
+        return res.sendStatus(204);
+    return res.sendStatus(404);
+}));
+exports.blogsRouter.delete("/:id", auth_basic_1.authBasic, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const result = blogs_repo_1.blogsRepo.deletedBlog(id);
-    return res.send(result);
-});
+    const result = yield blog_service_1.blogService.deleteBlog(id);
+    if (result)
+        return res.sendStatus(204);
+    return res.sendStatus(404);
+}));

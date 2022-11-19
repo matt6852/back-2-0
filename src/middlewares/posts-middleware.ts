@@ -1,8 +1,7 @@
 import { body, validationResult } from "express-validator";
 import { NextFunction, Request, Response } from "express";
-const reg = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+$/;
 
-export const blogsInputValidator = (
+export const postInputValidator = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -20,8 +19,14 @@ export const blogsInputValidator = (
   return next();
 };
 
-export const validBlog = [
-  body("name").isString().isLength({ max: 15 }).trim().not().isEmpty(),
-  body("description").isString().isLength({ max: 500 }),
-  body("websiteUrl").matches(reg).isLength({ max: 100 }),
+export const validPost = [
+  body("title").isString().isLength({ max: 30 }).trim().not().isEmpty(),
+  body("shortDescription")
+    .isString()
+    .isLength({ max: 100 })
+    .trim()
+    .not()
+    .isEmpty(),
+  body("content").isString().isLength({ max: 1000 }).trim().not().isEmpty(),
+  body("blogId").isString().trim().not().isEmpty(),
 ];

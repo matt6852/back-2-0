@@ -1,4 +1,11 @@
-import { connect, disconnect } from "mongoose";
+import mongoose, { connect, disconnect } from "mongoose";
+mongoose.set("toJSON", {
+  virtuals: true,
+  transform: (doc, converted) => {
+    delete converted._id;
+    delete converted.__v;
+  },
+});
 
 export const runDB = async () => {
   try {

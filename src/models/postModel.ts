@@ -14,4 +14,4 @@ const postSchema = new Schema<IPost>({
   blogId: { type: String, required: true },
 });
 
-export const BlogModel = model<IPost>("Post", postSchema);
+export const PostModel = model<IPost>("Post", postSchema);
