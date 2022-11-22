@@ -5,8 +5,6 @@ import { blogsRouter } from "./routes/blogs-router";
 import { postsRouter } from "./routes/posts-router";
 import { deleteAll } from "./routes/deletAll-routet";
 
-// dotenv.config();
-
 const app: Express = express();
 const port = process.env.PORT || 5005;
 app.use(express.json());
@@ -21,7 +19,6 @@ app.use("/testing", deleteAll);
 
 const start = async () => {
   await runDB();
-
   app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
   });
