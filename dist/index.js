@@ -18,7 +18,6 @@ const express_1 = __importDefault(require("express"));
 const blogs_router_1 = require("./routes/blogs-router");
 const posts_router_1 = require("./routes/posts-router");
 const deletAll_routet_1 = require("./routes/deletAll-routet");
-// dotenv.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5005;
 app.use(express_1.default.json());

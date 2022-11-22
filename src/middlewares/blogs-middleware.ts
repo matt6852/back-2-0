@@ -9,13 +9,11 @@ export const blogsInputValidator = (
 ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res
-      .status(400)
-      .send(
-        errors
-          .array({ onlyFirstError: true })
-          .map((e) => ({ message: e.msg, field: e.param }))
-      );
+    return res.status(400).send({
+      errorsMessages: errors
+        .array({ onlyFirstError: true })
+        .map((e) => ({ message: "Invalid value", field: e.param })),
+    });
   }
   return next();
 };

@@ -11,11 +11,11 @@ export const postInputValidator = (
   if (!errors.isEmpty()) {
     return res
       .status(400)
-      .send(
-        errors
+      .send({
+        errorsMessages: errors
           .array({ onlyFirstError: true })
-          .map((e) => ({ message: "Invalid value", field: e.param }))
-      );
+          .map((e) => ({ message: "Invalid value", field: e.param })),
+      });
   }
   return next();
 };
