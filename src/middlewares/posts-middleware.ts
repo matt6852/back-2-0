@@ -34,4 +34,3 @@ export const validPost = [
     }
   }),
 ];
-// console.log();
