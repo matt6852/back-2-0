@@ -14,13 +14,13 @@ const blogModel_1 = require("../models/blogModel");
 exports.blogsRepo = {
     getAllBlogs() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield blogModel_1.BlogModel.find({}).exec();
+            return yield blogModel_1.BlogModel.find({});
         });
     },
     getSingleBlog(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield blogModel_1.BlogModel.findById(id).exec();
+                return yield blogModel_1.BlogModel.findById(id);
             }
             catch (error) {
                 return null;

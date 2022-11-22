@@ -2,11 +2,11 @@ import { BlogModel, IBlog } from "../models/blogModel";
 
 export const blogsRepo = {
   async getAllBlogs() {
-    return await BlogModel.find({}).exec();
+    return await BlogModel.find({});
   },
   async getSingleBlog(id: string) {
     try {
-      return await BlogModel.findById(id).exec();
+      return await BlogModel.findById(id);
     } catch (error) {
       return null;
     }

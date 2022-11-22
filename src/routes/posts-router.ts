@@ -1,3 +1,5 @@
+import { blogsRepo } from "./../repo/blogs-repo";
+import { postService } from "./../services/post-service";
 import { postsRepo } from "./../repo/posts-repo";
 import { Router, Request, Response } from "express";
 import { postInputValidator, validPost } from "../middlewares/posts-middleware";
@@ -5,13 +7,16 @@ import { authBasic } from "../application/auth-basic";
 
 export const postsRouter = Router({});
 postsRouter.get("/", async (req: Request, res: Response) => {
-  const result = postsRepo.getAllPosts();
+  const result = await postService.getAllPosts();
   return res.send(result);
 });
 postsRouter.get("/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = postsRepo.getSinglePost(id);
-  return res.send(result);
+  const result = await postService.getSinglePost(id);
+  if (result) {
+    return res.status(200).send(result);
+  }
+  return res.sendStatus(404);
 });
 postsRouter.post(
   "/",
@@ -19,8 +24,11 @@ postsRouter.post(
   validPost,
   postInputValidator,
   async (req: Request, res: Response) => {
-    const result = postsRepo.createPost("body");
-    return res.send(result);
+    const result = await postService.createSinglePost(req.body);
+    if ("errorsMessages" in result) {
+      return res.status(400).send(result);
+    }
+    return res.status(201).send(result);
   }
 );
 postsRouter.put(
@@ -30,12 +38,14 @@ postsRouter.put(
   postInputValidator,
   async (req: Request, res: Response) => {
     const id = req.params.id;
-    const result = postsRepo.updatedPost(id);
-    return res.send(result);
+    const result = await postService.updateSinglePost(id, req.body);
+    if (result) return res.sendStatus(204);
+    return res.sendStatus(404);
   }
 );
 postsRouter.delete("/:id", authBasic, async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = postsRepo.deletedPost(id);
-  return res.send(result);
+  const result = await postService.deleteBlog(id);
+  if (result) return res.sendStatus(204);
+  return res.sendStatus(404);
 });

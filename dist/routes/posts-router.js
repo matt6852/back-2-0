@@ -10,31 +10,41 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRouter = void 0;
-const posts_repo_1 = require("./../repo/posts-repo");
+const post_service_1 = require("./../services/post-service");
 const express_1 = require("express");
 const posts_middleware_1 = require("../middlewares/posts-middleware");
 const auth_basic_1 = require("../application/auth-basic");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = posts_repo_1.postsRepo.getAllPosts();
+    const result = yield post_service_1.postService.getAllPosts();
     return res.send(result);
 }));
 exports.postsRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const result = posts_repo_1.postsRepo.getSinglePost(id);
-    return res.send(result);
+    const result = yield post_service_1.postService.getSinglePost(id);
+    if (result) {
+        return res.status(200).send(result);
+    }
+    return res.sendStatus(404);
 }));
 exports.postsRouter.post("/", auth_basic_1.authBasic, posts_middleware_1.validPost, posts_middleware_1.postInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = posts_repo_1.postsRepo.createPost("body");
-    return res.send(result);
+    const result = yield post_service_1.postService.createSinglePost(req.body);
+    if ("errorsMessages" in result) {
+        return res.status(400).send(result);
+    }
+    return res.status(201).send(result);
 }));
 exports.postsRouter.put("/:id", auth_basic_1.authBasic, posts_middleware_1.validPost, posts_middleware_1.postInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const result = posts_repo_1.postsRepo.updatedPost(id);
-    return res.send(result);
+    const result = yield post_service_1.postService.updateSinglePost(id, req.body);
+    if (result)
+        return res.sendStatus(204);
+    return res.sendStatus(404);
 }));
 exports.postsRouter.delete("/:id", auth_basic_1.authBasic, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const result = posts_repo_1.postsRepo.deletedPost(id);
-    return res.send(result);
+    const result = yield post_service_1.postService.deleteBlog(id);
+    if (result)
+        return res.sendStatus(204);
+    return res.sendStatus(404);
 }));
