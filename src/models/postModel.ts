@@ -5,6 +5,7 @@ export interface IPost {
   shortDescription: string;
   content: string;
   blogId: string;
+  blogName: string;
 }
 
 const postSchema = new Schema<IPost>({
@@ -12,6 +13,7 @@ const postSchema = new Schema<IPost>({
   shortDescription: { type: String, required: true },
   content: { type: String, required: true },
   blogId: { type: String, required: true },
+  blogName: { type: String, required: true },
 });
 
 export const PostModel = model<IPost>("Post", postSchema);

@@ -3,7 +3,10 @@ import { IPost, PostModel } from "../models/postModel";
 
 export const postsRepo = {
   async getAllPosts() {
-    return await PostModel.find({});
+    const res = await PostModel.find({});
+    console.log(res, "res");
+
+    return res;
   },
   async getSinglePost(id: string) {
     try {
@@ -14,6 +17,7 @@ export const postsRepo = {
   },
   async createPost(data: SinglePost) {
     const result = await PostModel.create(data);
+
     if (result) return result;
   },
 

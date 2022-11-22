@@ -14,7 +14,9 @@ const postModel_1 = require("../models/postModel");
 exports.postsRepo = {
     getAllPosts() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield postModel_1.PostModel.find({});
+            const res = yield postModel_1.PostModel.find({});
+            console.log(res, "res");
+            return res;
         });
     },
     getSinglePost(id) {

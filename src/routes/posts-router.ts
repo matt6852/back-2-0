@@ -24,7 +24,6 @@ postsRouter.post(
   validPost,
   postInputValidator,
   async (req: Request, res: Response) => {
-    // res.send("ok");
     const result = await postService.createSinglePost(req.body);
     if (result) return res.status(201).send(result);
   }

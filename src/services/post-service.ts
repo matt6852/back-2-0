@@ -10,13 +10,13 @@ export const postService = {
   },
   async createSinglePost(newPost: IPost) {
     const { blogId } = newPost;
-
     const isBlogExists = await blogsRepo.getSingleBlog(blogId);
     const updatedNewPost = {
       ...newPost,
       blogName: isBlogExists?.name!,
     };
     const result = await postsRepo.createPost(updatedNewPost);
+
     if (!result) {
       return {
         errorsMessages: [
