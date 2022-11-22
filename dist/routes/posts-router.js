@@ -28,6 +28,7 @@ exports.postsRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, 
     return res.sendStatus(404);
 }));
 exports.postsRouter.post("/", auth_basic_1.authBasic, posts_middleware_1.validPost, posts_middleware_1.postInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // res.send("ok");
     const result = yield post_service_1.postService.createSinglePost(req.body);
     if (result)
         return res.status(201).send(result);

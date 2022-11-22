@@ -34,9 +34,6 @@ exports.postsRepo = {
                 return result;
         });
     },
-    updatedPost(id) {
-        return "Updated post";
-    },
     updateSinglePost(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

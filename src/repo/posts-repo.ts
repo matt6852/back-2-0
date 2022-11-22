@@ -16,9 +16,7 @@ export const postsRepo = {
     const result = await PostModel.create(data);
     if (result) return result;
   },
-  updatedPost(id: string) {
-    return "Updated post";
-  },
+
   async updateSinglePost(id: string, data: IPost) {
     try {
       const result = await PostModel.findByIdAndUpdate(id, data);

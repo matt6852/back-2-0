@@ -16,6 +16,8 @@ export const postService = {
       ...newPost,
       blogName: isBlogExists?.name!,
     };
+    // console.log(updatedNewPost, "updatedNewPost");
+
     const result = await postsRepo.createPost(updatedNewPost);
     if (!result) {
       return {

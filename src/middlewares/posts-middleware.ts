@@ -9,13 +9,11 @@ export const postInputValidator = (
 ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res
-      .status(400)
-      .send({
-        errorsMessages: errors
-          .array({ onlyFirstError: true })
-          .map((e) => ({ message: "Invalid value", field: e.param })),
-      });
+    return res.status(400).send({
+      errorsMessages: errors
+        .array({ onlyFirstError: true })
+        .map((e) => ({ message: "Invalid value", field: e.param })),
+    });
   }
   return next();
 };
@@ -30,6 +28,10 @@ export const validPost = [
     .isEmpty(),
   body("content").isString().isLength({ max: 1000 }).trim().not().isEmpty(),
   body("blogId").custom(async (value) => {
-    await BlogModel.findById(value);
+    const result = await BlogModel.findById(value);
+    if (!result) {
+      throw new Error();
+    }
   }),
 ];
+// console.log();
