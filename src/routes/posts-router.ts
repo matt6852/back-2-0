@@ -25,10 +25,7 @@ postsRouter.post(
   postInputValidator,
   async (req: Request, res: Response) => {
     const result = await postService.createSinglePost(req.body);
-    if ("errorsMessages" in result) {
-      return res.status(400).send(result);
-    }
-    return res.status(201).send(result);
+    if (result) return res.status(201).send(result);
   }
 );
 postsRouter.put(

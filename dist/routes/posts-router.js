@@ -29,10 +29,8 @@ exports.postsRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, 
 }));
 exports.postsRouter.post("/", auth_basic_1.authBasic, posts_middleware_1.validPost, posts_middleware_1.postInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield post_service_1.postService.createSinglePost(req.body);
-    if ("errorsMessages" in result) {
-        return res.status(400).send(result);
-    }
-    return res.status(201).send(result);
+    if (result)
+        return res.status(201).send(result);
 }));
 exports.postsRouter.put("/:id", auth_basic_1.authBasic, posts_middleware_1.validPost, posts_middleware_1.postInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;

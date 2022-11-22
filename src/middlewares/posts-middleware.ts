@@ -1,3 +1,4 @@
+import { BlogModel } from "./../models/blogModel";
 import { body, validationResult } from "express-validator";
 import { NextFunction, Request, Response } from "express";
 
@@ -13,7 +14,7 @@ export const postInputValidator = (
       .send(
         errors
           .array({ onlyFirstError: true })
-          .map((e) => ({ message: e.msg, field: e.param }))
+          .map((e) => ({ message: "Invalid value", field: e.param }))
       );
   }
   return next();
@@ -28,5 +29,7 @@ export const validPost = [
     .not()
     .isEmpty(),
   body("content").isString().isLength({ max: 1000 }).trim().not().isEmpty(),
-  body("blogId").isString().trim().not().isEmpty(),
+  body("blogId").custom(async (value) => {
+    await BlogModel.findById(value);
+  }),
 ];

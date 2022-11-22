@@ -12,21 +12,9 @@ export const postService = {
     const { blogId } = newPost;
 
     const isBlogExists = await blogsRepo.getSingleBlog(blogId);
-    if (!isBlogExists) {
-      const error = {
-        errorsMessages: [
-          {
-            message: "Invalid value",
-            field: "blogId",
-          },
-        ],
-      };
-
-      return error;
-    }
     const updatedNewPost = {
       ...newPost,
-      blogName: isBlogExists.name,
+      blogName: isBlogExists?.name!,
     };
     const result = await postsRepo.createPost(updatedNewPost);
     if (!result) {
