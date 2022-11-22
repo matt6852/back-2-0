@@ -42,7 +42,7 @@ postsRouter.put(
 );
 postsRouter.delete("/:id", authBasic, async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await postService.deleteBlog(id);
+  const result = await postService.deletePost(id);
   if (result) return res.sendStatus(204);
   return res.sendStatus(404);
 });

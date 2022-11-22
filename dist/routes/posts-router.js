@@ -41,7 +41,7 @@ exports.postsRouter.put("/:id", auth_basic_1.authBasic, posts_middleware_1.valid
 }));
 exports.postsRouter.delete("/:id", auth_basic_1.authBasic, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const result = yield post_service_1.postService.deleteBlog(id);
+    const result = yield post_service_1.postService.deletePost(id);
     if (result)
         return res.sendStatus(204);
     return res.sendStatus(404);

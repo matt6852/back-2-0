@@ -26,13 +26,13 @@ export const postService = {
         ],
       };
     }
-    return updatedNewPost;
+    return { ...updatedNewPost, id: result.id };
   },
   async updateSinglePost(id: string, data: IPost) {
     const result = await postsRepo.updateSinglePost(id, data);
     return result;
   },
-  async deleteBlog(id: string) {
+  async deletePost(id: string) {
     const result = await postsRepo.deletedPost(id);
     return result;
   },
