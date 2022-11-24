@@ -6,6 +6,7 @@ export interface IPost {
   content: string;
   blogId: string;
   blogName: string;
+  createdAt: { type: Date; default: Date };
 }
 
 const postSchema = new Schema<IPost>({
@@ -14,6 +15,7 @@ const postSchema = new Schema<IPost>({
   content: { type: String, required: true },
   blogId: { type: String, required: true },
   blogName: { type: String, required: true },
+  createdAt: { type: Date, default: new Date() },
 });
 
 export const PostModel = model<IPost>("Post", postSchema);
