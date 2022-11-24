@@ -15,7 +15,7 @@ const postSchema = new Schema<IPost>({
   content: { type: String, required: true },
   blogId: { type: String, required: true },
   blogName: { type: String, required: true },
-  createdAt: { type: Date, default: new Date() },
+  createdAt: { type: Date, default: Date.now },
 });
 
 export const PostModel = model<IPost>("Post", postSchema);
