@@ -26,7 +26,7 @@ export const postService = {
         ],
       };
     }
-    return { ...updatedNewPost, id: result.id };
+    return { ...updatedNewPost, id: result.id, createdAt: result.createdAt };
   },
   async updateSinglePost(id: string, data: IPost) {
     const result = await postsRepo.updateSinglePost(id, data);
