@@ -14,14 +14,21 @@ const post_service_1 = require("./../services/post-service");
 const express_1 = require("express");
 const posts_middleware_1 = require("../middlewares/posts-middleware");
 const auth_basic_1 = require("../application/auth-basic");
+const query_posts_repo_1 = require("../repo/query-posts-repo");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield post_service_1.postService.getAllPosts();
+    const query = {
+        pageNumber: +req.query.pageNumber || 1,
+        pageSize: +req.query.pageSize || 10,
+        sortBy: req.query.sortBy || "createdAt",
+        sortDirection: req.query.sortDirection || "desc",
+    };
+    const result = yield query_posts_repo_1.postsQueryRepo.getAllPosts(query);
     return res.send(result);
 }));
 exports.postsRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const result = yield post_service_1.postService.getSinglePost(id);
+    const result = yield query_posts_repo_1.postsQueryRepo.getSinglePost(id);
     if (result) {
         return res.status(200).send(result);
     }

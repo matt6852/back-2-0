@@ -1,16 +1,11 @@
 import { blogsRepo } from "./../repo/blogs-repo";
 import { IPost } from "./../models/postModel";
 import { postsRepo } from "./../repo/posts-repo";
+import { blogsQueryRepo } from "../repo/query-blogs-repo";
 export const postService = {
-  async getAllPosts() {
-    return await postsRepo.getAllPosts();
-  },
-  async getSinglePost(id: string) {
-    return await postsRepo.getSinglePost(id);
-  },
   async createSinglePost(newPost: IPost) {
     const { blogId } = newPost;
-    const isBlogExists = await blogsRepo.getSingleBlog(blogId);
+    const isBlogExists = await blogsQueryRepo.getSingleBlog(blogId);
     const updatedNewPost = {
       ...newPost,
       blogName: isBlogExists?.name!,

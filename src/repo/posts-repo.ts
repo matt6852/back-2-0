@@ -2,19 +2,6 @@ import { type } from "os";
 import { IPost, PostModel } from "../models/postModel";
 
 export const postsRepo = {
-  async getAllPosts() {
-    const res = await PostModel.find({});
-    console.log(res, "res");
-
-    return res;
-  },
-  async getSinglePost(id: string) {
-    try {
-      return await PostModel.findById(id);
-    } catch (error) {
-      return null;
-    }
-  },
   async createPost(data: SinglePost) {
     const result = await PostModel.create(data);
 

@@ -12,9 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.blogsRepo = void 0;
 const blogModel_1 = require("../models/blogModel");
 exports.blogsRepo = {
-    getAllBlogs() {
+    createBlog(newBlog) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield blogModel_1.BlogModel.find({});
+            return yield blogModel_1.BlogModel.create(newBlog);
         });
     },
     getSingleBlog(id) {
@@ -25,11 +25,6 @@ exports.blogsRepo = {
             catch (error) {
                 return null;
             }
-        });
-    },
-    createBlog(newBlog) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield blogModel_1.BlogModel.create(newBlog);
         });
     },
     updatedBlog(id, data) {

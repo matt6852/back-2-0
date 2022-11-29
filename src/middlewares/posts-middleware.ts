@@ -34,3 +34,13 @@ export const validPost = [
     }
   }),
 ];
+export const validPostWithOutID = [
+  body("title").isString().isLength({ max: 30 }).trim().not().isEmpty(),
+  body("shortDescription")
+    .isString()
+    .isLength({ max: 100 })
+    .trim()
+    .not()
+    .isEmpty(),
+  body("content").isString().isLength({ max: 1000 }).trim().not().isEmpty(),
+];

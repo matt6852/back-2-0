@@ -12,23 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRepo = void 0;
 const postModel_1 = require("../models/postModel");
 exports.postsRepo = {
-    getAllPosts() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const res = yield postModel_1.PostModel.find({});
-            console.log(res, "res");
-            return res;
-        });
-    },
-    getSinglePost(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                return yield postModel_1.PostModel.findById(id);
-            }
-            catch (error) {
-                return null;
-            }
-        });
-    },
     createPost(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield postModel_1.PostModel.create(data);

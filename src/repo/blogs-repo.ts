@@ -1,8 +1,8 @@
 import { BlogModel, IBlog } from "../models/blogModel";
 
 export const blogsRepo = {
-  async getAllBlogs() {
-    return await BlogModel.find({});
+  async createBlog(newBlog: IBlog) {
+    return await BlogModel.create(newBlog);
   },
   async getSingleBlog(id: string) {
     try {
@@ -10,9 +10,6 @@ export const blogsRepo = {
     } catch (error) {
       return null;
     }
-  },
-  async createBlog(newBlog: IBlog) {
-    return await BlogModel.create(newBlog);
   },
   async updatedBlog(id: string, data: IBlog) {
     try {
