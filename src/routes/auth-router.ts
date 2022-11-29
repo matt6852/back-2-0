@@ -12,7 +12,6 @@ authRouter.post(
   validCredentials,
   credentialsInputValidator,
   async (req: Request, res: Response) => {
-    // const createdUser = await userService.createSingleUser(req.body);
     const result = await authService.loginUser(
       req.body.loginOrEmail,
       req.body.password
