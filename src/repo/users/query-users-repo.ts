@@ -6,16 +6,19 @@ export const usersQueryRepo = {
     const sortObj: any = {
       [query.sortBy]: query.sortDirection === "desc" ? -1 : 1,
     };
-    const allUsers = await UserModel.find({
-      login: {
-        $regex: query.searchLoginTerm ? query.searchLoginTerm : "",
-        $options: "i",
+    const allUsers = await UserModel.find(
+      {
+        login: {
+          $regex: query.searchLoginTerm ? query.searchLoginTerm : "",
+          $options: "i",
+        },
+        email: {
+          $regex: query.searchEmailTerm ? query.searchEmailTerm : "",
+          $options: "i",
+        },
       },
-      email: {
-        $regex: query.searchEmailTerm ? query.searchEmailTerm : "",
-        $options: "i",
-      },
-    })
+      { password: 0 }
+    )
       .sort(sortObj)
       .limit(query.pageSize)
       .skip((query.pageNumber - 1) * query.pageSize);
