@@ -1,4 +1,4 @@
-import { BlogModel, IBlog } from "../models/blogModel";
+import { BlogModel, IBlog } from "../../models/blogModel";
 
 export const blogsRepo = {
   async createBlog(newBlog: IBlog) {

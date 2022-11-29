@@ -1,10 +1,10 @@
-import { blogsRepo } from "./../repo/blogs-repo";
+import { blogsRepo } from "../repo/blogs/blogs-repo";
 import { postService } from "./../services/post-service";
-import { postsRepo } from "./../repo/posts-repo";
+import { postsRepo } from "../repo/posts/posts-repo";
 import { Router, Request, Response } from "express";
 import { postInputValidator, validPost } from "../middlewares/posts-middleware";
 import { authBasic } from "../application/auth-basic";
-import { postsQueryRepo } from "../repo/query-posts-repo";
+import { postsQueryRepo } from "../repo/posts/query-posts-repo";
 import { QueryTypeAllPosts } from "./blogs-router";
 
 export const postsRouter = Router({});

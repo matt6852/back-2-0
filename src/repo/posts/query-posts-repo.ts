@@ -1,5 +1,5 @@
-import { PostModel } from "../models/postModel";
-import { QueryTypeAllPosts } from "../routes/blogs-router";
+import { PostModel } from "../../models/postModel";
+import { QueryTypeAllPosts } from "../../routes/blogs-router";
 
 export const postsQueryRepo = {
   async getAllPosts(query: QueryTypeAllPosts) {

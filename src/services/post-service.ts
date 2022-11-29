@@ -1,7 +1,7 @@
-import { blogsRepo } from "./../repo/blogs-repo";
+import { blogsRepo } from "../repo/blogs/blogs-repo";
 import { IPost } from "./../models/postModel";
-import { postsRepo } from "./../repo/posts-repo";
-import { blogsQueryRepo } from "../repo/query-blogs-repo";
+import { postsRepo } from "../repo/posts/posts-repo";
+import { blogsQueryRepo } from "../repo/blogs/query-blogs-repo";
 export const postService = {
   async createSinglePost(newPost: IPost) {
     const { blogId } = newPost;

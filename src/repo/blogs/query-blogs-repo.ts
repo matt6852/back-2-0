@@ -1,6 +1,9 @@
-import { BlogModel } from "../models/blogModel";
-import { PostModel } from "../models/postModel";
-import { QueryTypeAllPosts, QueryTypeAllBlogs } from "../routes/blogs-router";
+import { BlogModel } from "../../models/blogModel";
+import { PostModel } from "../../models/postModel";
+import {
+  QueryTypeAllPosts,
+  QueryTypeAllBlogs,
+} from "../../routes/blogs-router";
 
 export const blogsQueryRepo = {
   async getAllBlogs(query: QueryTypeAllBlogs) {

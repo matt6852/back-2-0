@@ -1,11 +1,10 @@
 import { postService } from "./../services/post-service";
 import {
-  validPost,
   postInputValidator,
   validPostWithOutID,
 } from "./../middlewares/posts-middleware";
-import { blogsRepo } from "./../repo/blogs-repo";
-import { blogsQueryRepo } from "./../repo/query-blogs-repo";
+import { blogsRepo } from "../repo/blogs/blogs-repo";
+import { blogsQueryRepo } from "../repo/blogs/query-blogs-repo";
 import { blogService } from "./../services/blog-service";
 import {
   blogsInputValidator,

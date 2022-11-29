@@ -1,5 +1,5 @@
 import { type } from "os";
-import { IPost, PostModel } from "../models/postModel";
+import { IPost, PostModel } from "../../models/postModel";
 
 export const postsRepo = {
   async createPost(data: SinglePost) {

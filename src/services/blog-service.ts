@@ -1,6 +1,6 @@
-import { blogsQueryRepo } from "./../repo/query-blogs-repo";
+import { blogsQueryRepo } from "../repo/blogs/query-blogs-repo";
 import { IBlog } from "../models/blogModel";
-import { blogsRepo } from "./../repo/blogs-repo";
+import { blogsRepo } from "../repo/blogs/blogs-repo";
 export const blogService = {
   async createBlog(newBlog: IBlog) {
     return await blogsRepo.createBlog(newBlog);
