@@ -2,7 +2,13 @@ import { IUser, UserModel } from "../../models/userModal";
 
 export const usersRepo = {
   async createUser(newUser: IUser) {
-    return await UserModel.create(newUser);
+    const result = await UserModel.create(newUser);
+    return {
+      login: result.login,
+      email: result.email,
+      id: result.id,
+      createdAt: result.createdAt,
+    };
   },
   async loginUser(loginOrEmail: string, password: string) {
     try {
