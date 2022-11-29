@@ -8,29 +8,42 @@ export const usersQueryRepo = {
     };
     const allUsers = await UserModel.find(
       {
-        login: {
-          $regex: query.searchLoginTerm ? query.searchLoginTerm : "",
-          $options: "i",
-        },
-        email: {
-          $regex: query.searchEmailTerm ? query.searchEmailTerm : "",
-          $options: "i",
-        },
+        $or: [
+          {
+            login: {
+              $regex: query.searchLoginTerm ? query.searchLoginTerm : "",
+              $options: "i",
+            },
+          },
+          {
+            email: {
+              $regex: query.searchEmailTerm ? query.searchEmailTerm : "",
+              $options: "i",
+            },
+          },
+        ],
       },
+
       { password: 0 }
     )
       .sort(sortObj)
       .limit(query.pageSize)
       .skip((query.pageNumber - 1) * query.pageSize);
     const count = await UserModel.countDocuments({
-      login: {
-        $regex: query.searchLoginTerm ? query.searchLoginTerm : "",
-        $options: "i",
-      },
-      email: {
-        $regex: query.searchEmailTerm ? query.searchEmailTerm : "",
-        $options: "i",
-      },
+      $or: [
+        {
+          login: {
+            $regex: query.searchLoginTerm ? query.searchLoginTerm : "",
+            $options: "i",
+          },
+        },
+        {
+          email: {
+            $regex: query.searchEmailTerm ? query.searchEmailTerm : "",
+            $options: "i",
+          },
+        },
+      ],
     });
     const formattedResult = {
       pagesCount: Math.ceil(count / query.pageSize),

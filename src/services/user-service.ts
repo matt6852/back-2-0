@@ -14,7 +14,7 @@ export const userService = {
     };
 
     const result = await usersRepo.createUser(usersWithHashPassword);
-    delete result.password;
+
     return result;
   },
   async deleteUser(id: string) {
