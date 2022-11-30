@@ -42,6 +42,9 @@ export const commentsQueryRepo = {
     const result = await CommentModel.findOneAndDelete({ id, userId });
     return result;
   },
+  async deleteMany(postId: string) {
+    await CommentModel.deleteMany({ postId });
+  },
   async updatedComment(id: string, userId: string, content: string) {
     const result = await CommentModel.findOneAndUpdate(
       {
