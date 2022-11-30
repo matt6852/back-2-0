@@ -39,7 +39,7 @@ export const commentsQueryRepo = {
     }
   },
   async deleteComment(id: string, userId: string) {
-    const result = await CommentModel.findOneAndDelete({ id, userId });
+    const result = await CommentModel.findOneAndDelete({ _id: id, userId });
     return result;
   },
   async deleteMany(postId: string) {
@@ -48,12 +48,12 @@ export const commentsQueryRepo = {
   async updatedComment(id: string, userId: string, content: string) {
     const result = await CommentModel.findOneAndUpdate(
       {
-        id,
+        _id: id,
         userId,
       },
       { content }
     );
-    console.log(result, "updatedComment");
+    console.log(result, "result");
 
     return result;
   },
