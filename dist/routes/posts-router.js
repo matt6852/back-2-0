@@ -58,7 +58,7 @@ exports.postsRouter.get("/:postId/comments", (req, res) => __awaiter(void 0, voi
     const result = yield query_comments_repo_1.commentsQueryRepo.getAllComments(query, id);
     return res.send(result);
 }));
-exports.postsRouter.post("/:postId/comments", comments_middleware_1.validComment, comments_middleware_1.commentInputValidator, jwt_auth_1.authJWTMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.postsRouter.post("/:postId/comments", jwt_auth_1.authJWTMiddleware, comments_middleware_1.validComment, comments_middleware_1.commentInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.postId;
     const result = yield query_posts_repo_1.postsQueryRepo.getSinglePost(id);
     console.log(result);

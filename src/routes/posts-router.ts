@@ -65,9 +65,9 @@ postsRouter.get(
 );
 postsRouter.post(
   "/:postId/comments",
+  authJWTMiddleware,
   validComment,
   commentInputValidator,
-  authJWTMiddleware,
   async (req: Request, res: Response) => {
     const id = req.params.postId;
     const result = await postsQueryRepo.getSinglePost(id);
