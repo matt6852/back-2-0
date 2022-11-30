@@ -48,14 +48,11 @@ export const commentsQueryRepo = {
   async updatedComment(id: string, userId: string, content: string) {
     const result = await CommentModel.findOneAndUpdate(
       {
-        _id: id,
+        _id: id, // important to use _id  to find exact match
         userId,
       },
       { content }
     );
-    console.log(result, "result");
-
     return result;
   },
 };
-console.log("test deploy");
