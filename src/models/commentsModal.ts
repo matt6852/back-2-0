@@ -5,12 +5,14 @@ export interface IComment {
   userId: string;
   userLogin: string;
   createdAt: { type: Date; default: Date };
+  postId: string;
 }
 
 const commentsSchema = new Schema<IComment>({
   content: { type: String, required: true },
   userId: { type: String, required: true },
   userLogin: { type: String, required: true },
+  postId: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
 

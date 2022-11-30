@@ -59,7 +59,7 @@ postsRouter.get(
       sortBy: req.query.sortBy || "createdAt",
       sortDirection: req.query.sortDirection || "desc",
     };
-    const result = await commentsQueryRepo.getAllComments(query);
+    const result = await commentsQueryRepo.getAllComments(query, id);
     return res.send(result);
   }
 );

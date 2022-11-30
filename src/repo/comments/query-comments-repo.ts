@@ -2,21 +2,22 @@ import { CommentModel } from "./../../models/commentsModal";
 import { QueryTypeAllPosts } from "../../routes/blogs-router";
 
 export const commentsQueryRepo = {
-  async getAllComments(query: QueryTypeAllPosts) {
+  async getAllComments(query: QueryTypeAllPosts, postId: string) {
     const sortObj: any = {
       [query.sortBy]: query.sortDirection === "desc" ? -1 : 1,
     };
-    const allPosts = await CommentModel.find({})
+    const allComments = await CommentModel.find({ postId }, { postId: 0 })
       .sort(sortObj)
       .limit(query.pageSize)
       .skip((query.pageNumber - 1) * query.pageSize);
-    const count = await CommentModel.countDocuments({});
+
+    const count = await CommentModel.countDocuments({ postId });
     const formattedResult = {
       pagesCount: Math.ceil(count / query.pageSize),
       page: query.pageNumber,
       pageSize: query.pageSize,
       totalCount: count,
-      items: allPosts,
+      items: allComments,
     };
     return formattedResult;
   },
