@@ -10,6 +10,7 @@ export const commentsRepo = {
       content: result.content,
       userLogin: result.userLogin,
       id: result.id,
+      createdAt: result.createdAt,
     };
   },
 };
