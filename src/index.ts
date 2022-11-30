@@ -1,5 +1,5 @@
-import { commentsRouter } from "./routes/comments-router";
 import "dotenv/config";
+import { commentsRouter } from "./routes/comments-router";
 import { runDB } from "./db/db";
 import express, { Express, Request, Response } from "express";
 import { blogsRouter } from "./routes/blogs-router";
