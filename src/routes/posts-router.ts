@@ -51,7 +51,6 @@ postsRouter.get(
   ) => {
     const id = req.params.postId;
     const post = await postsQueryRepo.getSinglePost(id);
-    console.log(post);
     if (!post) return res.sendStatus(404);
     const query: QueryTypeAllPosts = {
       pageNumber: +req.query.pageNumber || 1,
@@ -71,7 +70,6 @@ postsRouter.post(
   async (req: Request, res: Response) => {
     const id = req.params.postId;
     const result = await postsQueryRepo.getSinglePost(id);
-    console.log(result);
     if (!result) return res.sendStatus(404);
     const comment: CommentType = {
       userId: req?.user.id,

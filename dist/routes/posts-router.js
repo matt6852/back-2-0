@@ -46,7 +46,6 @@ exports.postsRouter.post("/", auth_basic_1.authBasic, posts_middleware_1.validPo
 exports.postsRouter.get("/:postId/comments", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.postId;
     const post = yield query_posts_repo_1.postsQueryRepo.getSinglePost(id);
-    console.log(post);
     if (!post)
         return res.sendStatus(404);
     const query = {
@@ -61,7 +60,6 @@ exports.postsRouter.get("/:postId/comments", (req, res) => __awaiter(void 0, voi
 exports.postsRouter.post("/:postId/comments", jwt_auth_1.authJWTMiddleware, comments_middleware_1.validComment, comments_middleware_1.commentInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.postId;
     const result = yield query_posts_repo_1.postsQueryRepo.getSinglePost(id);
-    console.log(result);
     if (!result)
         return res.sendStatus(404);
     const comment = {
