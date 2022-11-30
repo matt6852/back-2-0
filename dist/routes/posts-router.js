@@ -10,11 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsRouter = void 0;
+const comments_middleware_1 = require("./../middlewares/comments-middleware");
 const post_service_1 = require("./../services/post-service");
 const express_1 = require("express");
 const posts_middleware_1 = require("../middlewares/posts-middleware");
 const auth_basic_1 = require("../application/auth-basic");
 const query_posts_repo_1 = require("../repo/posts/query-posts-repo");
+const jwt_auth_1 = require("../application/jwt-auth");
+const comments_service_1 = require("../services/comments-service");
+const query_comments_repo_1 = require("../repo/comments/query-comments-repo");
 exports.postsRouter = (0, express_1.Router)({});
 exports.postsRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const query = {
@@ -38,6 +42,38 @@ exports.postsRouter.post("/", auth_basic_1.authBasic, posts_middleware_1.validPo
     const result = yield post_service_1.postService.createSinglePost(req.body);
     if (result)
         return res.status(201).send(result);
+}));
+exports.postsRouter.get("/:postId/comments", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.postId;
+    const post = yield query_posts_repo_1.postsQueryRepo.getSinglePost(id);
+    console.log(post);
+    if (!post)
+        return res.sendStatus(404);
+    const query = {
+        pageNumber: +req.query.pageNumber || 1,
+        pageSize: +req.query.pageSize || 10,
+        sortBy: req.query.sortBy || "createdAt",
+        sortDirection: req.query.sortDirection || "desc",
+    };
+    const result = yield query_comments_repo_1.commentsQueryRepo.getAllComments(query);
+    return res.send(result);
+}));
+exports.postsRouter.post("/:postId/comments", comments_middleware_1.validComment, comments_middleware_1.commentInputValidator, jwt_auth_1.authJWTMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.postId;
+    const result = yield query_posts_repo_1.postsQueryRepo.getSinglePost(id);
+    console.log(result);
+    if (!result)
+        return res.sendStatus(404);
+    const comment = {
+        userId: req === null || req === void 0 ? void 0 : req.user.id,
+        content: req.body.content,
+        userLogin: req === null || req === void 0 ? void 0 : req.user.login,
+        postId: result.id,
+    };
+    const newComment = yield comments_service_1.commentsService.createSingComment(comment);
+    if (!newComment)
+        return res.sendStatus(500);
+    return res.status(201).send(newComment);
 }));
 exports.postsRouter.put("/:id", auth_basic_1.authBasic, posts_middleware_1.validPost, posts_middleware_1.postInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;

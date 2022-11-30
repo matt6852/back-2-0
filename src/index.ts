@@ -1,3 +1,4 @@
+import { commentsRouter } from "./routes/comments-router";
 import "dotenv/config";
 import { runDB } from "./db/db";
 import express, { Express, Request, Response } from "express";
@@ -19,6 +20,7 @@ app.use("/blogs", blogsRouter);
 app.use("/posts", postsRouter);
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
+app.use("/comments", commentsRouter);
 app.use("/testing", deleteAll);
 
 const start = async () => {

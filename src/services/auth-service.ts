@@ -5,6 +5,7 @@ import { postsRepo } from "../repo/posts/posts-repo";
 import { blogsQueryRepo } from "../repo/blogs/query-blogs-repo";
 import { IUser } from "../models/userModal";
 import bcrypt from "bcrypt";
+import { jwtAuth } from "../application/jwt-auth";
 export const authService = {
   async loginUser(loginOrEmail: string, password: string) {
     const user = await usersRepo.loginUser(loginOrEmail, password);
@@ -12,8 +13,13 @@ export const authService = {
       password,
       user?.password
     );
-    return correctPassword;
+
+    if (!correctPassword) return null;
+    const login = jwtAuth.createToken(user?.id);
+
+    return login;
   },
+
   async _comparePassword(password: string, hashPassword: string = "") {
     return await bcrypt.compare(password, hashPassword);
   },

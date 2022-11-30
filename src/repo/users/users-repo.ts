@@ -10,6 +10,10 @@ export const usersRepo = {
       createdAt: result.createdAt,
     };
   },
+  async findUserById(id: string) {
+    const result = await UserModel.findById(id);
+    return result;
+  },
   async loginUser(loginOrEmail: string, password: string) {
     try {
       return await UserModel.findOne({
