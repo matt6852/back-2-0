@@ -3,6 +3,8 @@ import { IUser, UserModel } from "../../models/userModal";
 export const usersRepo = {
   async createUser(newUser: any) {
     const result = await UserModel.create(newUser);
+    console.log(result, "newUser");
+
     return {
       login: result.login,
       email: result.email,
@@ -38,8 +40,14 @@ export const usersRepo = {
         { confirmCode: code },
         { isConfirmed: true }
       );
-      console.log(result, "getUserByCode");
-
+      return result;
+    } catch (error) {
+      return null;
+    }
+  },
+  async findUserByEmail(email: string) {
+    try {
+      const result = await UserModel.findOne({ email });
       return result;
     } catch (error) {
       return null;

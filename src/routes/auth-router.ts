@@ -1,3 +1,4 @@
+import { usersRepo } from "./../repo/users/users-repo";
 import { userService } from "./../services/user-service";
 import { Router, Request, Response } from "express";
 import { emailManager } from "../application/emailManager";
@@ -34,14 +35,21 @@ authRouter.post(
   validUser,
   userInputValidator,
   async (req: Request, res: Response) => {
-    // const result = await emailManager.sendEmail("prorokwow@mail.ru", "23312");
-    // console.log();
-    // res.send(result);
     const { email, password, login } = req.body;
-    const result = authService.registrationUser(login, email, password);
-    console.log(result, "result registration");
+    const isUserExists = await usersRepo.findUserByEmail(email);
+    if (isUserExists) {
+      return res.status(400).send({
+        errorsMessages: [
+          {
+            message: "Invalid value",
+            field: "email",
+          },
+        ],
+      });
+    }
+    const result = await authService.registrationUser(login, email, password);
 
-    return res.sendStatus(204);
+    if (result) return res.sendStatus(204);
   }
 );
 authRouter.post(

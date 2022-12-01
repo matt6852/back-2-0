@@ -44,5 +44,6 @@ export const authService = {
     };
     const result = await usersRepo.createUser(newUserRegistration);
     const sendEmail = await emailManager.sendEmail(email, confirmCode);
+    return result;
   },
 };
