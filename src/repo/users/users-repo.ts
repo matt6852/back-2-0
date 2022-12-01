@@ -40,6 +40,10 @@ export const usersRepo = {
         { confirmCode: code },
         { isConfirmed: true }
       );
+      if (result && result.isConfirmed) {
+        return null;
+      }
+
       return result;
     } catch (error) {
       return null;

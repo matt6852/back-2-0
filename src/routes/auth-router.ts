@@ -43,7 +43,7 @@ authRouter.post(
         errorsMessages: [
           {
             message: "Invalid value",
-            field: "email",
+            field: email === isUserExists.email ? "email" : "login",
           },
         ],
       });
