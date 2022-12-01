@@ -43,7 +43,7 @@ export const authService = {
       }),
     };
     const result = await usersRepo.createUser(newUserRegistration);
-    const sendEmail = await emailManager.sendEmail(email, confirmCode);
+    await emailManager.sendEmail(email, confirmCode);
     return result;
   },
   async resendingEmail(email: string, id: string) {
@@ -56,7 +56,7 @@ export const authService = {
       }),
     };
     const result = await usersRepo.resendEmail(id, newUserRegistration);
-    const sendEmail = await emailManager.sendEmail(email, confirmCode);
+    await emailManager.sendEmail(email, confirmCode);
     return result;
   },
 };

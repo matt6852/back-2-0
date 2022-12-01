@@ -21,7 +21,6 @@ export const emailManager = {
            <a href='https://backend-redone-57h8.vercel.app/auth/registration-confirmation?code=${confirmCode}'>complete registration</a>
         </p>`,
       });
-      console.log(info, "emailManager");
       return true;
     } catch (error) {
       console.log(error);

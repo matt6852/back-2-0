@@ -3,8 +3,6 @@ import { IUser, UserModel } from "../../models/userModal";
 export const usersRepo = {
   async createUser(newUser: any) {
     const result = await UserModel.create(newUser);
-    console.log(result, "newUser");
-
     return {
       login: result.login,
       email: result.email,
@@ -40,10 +38,11 @@ export const usersRepo = {
         { confirmCode: code },
         { isConfirmed: true }
       );
+      console.log(result);
+
       if (result && result.isConfirmed) {
         return null;
       }
-
       return result;
     } catch (error) {
       return null;
