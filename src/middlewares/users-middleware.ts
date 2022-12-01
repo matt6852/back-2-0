@@ -24,3 +24,4 @@ export const validUser = [
   body("password").isString().isLength({ max: 20, min: 6 }),
   body("email").matches(reg),
 ];
+export const validUserCode = [body("code").isString().trim().not().isEmpty()];

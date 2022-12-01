@@ -25,7 +25,7 @@ export const usersQueryRepo = {
         ],
       },
 
-      { password: 0 }
+      { password: 0, isConfirmed: 0, confirmCode: 0, expirationCodeDate: 0 }
     )
       .sort(sortObj)
       .limit(query.pageSize)

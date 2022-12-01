@@ -1,10 +1,16 @@
-import console from "console";
+import { userService } from "./../services/user-service";
 import { Router, Request, Response } from "express";
+import { emailManager } from "../application/emailManager";
 import { authJWTMiddleware } from "../application/jwt-auth";
 import {
   credentialsInputValidator,
   validCredentials,
 } from "../middlewares/auth-middleware";
+import {
+  userInputValidator,
+  validUser,
+  validUserCode,
+} from "../middlewares/users-middleware";
 import { authService } from "../services/auth-service";
 
 export const authRouter = Router({});
@@ -21,6 +27,40 @@ authRouter.post(
 
     if (result) return res.status(200).json(result);
     return res.sendStatus(401);
+  }
+);
+authRouter.post(
+  "/registration",
+  validUser,
+  userInputValidator,
+  async (req: Request, res: Response) => {
+    // const result = await emailManager.sendEmail("prorokwow@mail.ru", "23312");
+    // console.log();
+    // res.send(result);
+    const { email, password, login } = req.body;
+    const result = authService.registrationUser(login, email, password);
+    console.log(result, "result registration");
+
+    return res.sendStatus(204);
+  }
+);
+authRouter.post(
+  "/registration-confirmation",
+  validUserCode,
+  userInputValidator,
+  async (req: Request, res: Response) => {
+    const { code } = req.body;
+    const findUserByCode = await userService.getUserByCode(code);
+    if (!findUserByCode)
+      return res.status(400).send({
+        errorsMessages: [
+          {
+            message: "Invalid value",
+            field: "code",
+          },
+        ],
+      });
+    return res.sendStatus(204);
   }
 );
 authRouter.get(

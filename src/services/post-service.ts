@@ -1,3 +1,4 @@
+import { commentsQueryRepo } from "./../repo/comments/query-comments-repo";
 import { blogsRepo } from "../repo/blogs/blogs-repo";
 import { IPost } from "./../models/postModel";
 import { postsRepo } from "../repo/posts/posts-repo";
@@ -29,6 +30,7 @@ export const postService = {
   },
   async deletePost(id: string) {
     const result = await postsRepo.deletedPost(id);
+    await commentsQueryRepo.deleteMany(id);
     return result;
   },
 };

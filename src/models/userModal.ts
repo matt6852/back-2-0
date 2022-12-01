@@ -4,7 +4,10 @@ export interface IUser {
   login: string;
   password: string;
   email: string;
+  isConfirmed: boolean;
+  confirmCode: string;
   createdAt: { type: Date; default: Date };
+  expirationCodeDate: Date;
 }
 
 const userSchema = new Schema<IUser>({
@@ -12,6 +15,9 @@ const userSchema = new Schema<IUser>({
   password: { type: String, required: true },
   email: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
+  isConfirmed: { type: Boolean, default: false },
+  confirmCode: { type: String, default: "confirmCode" },
+  expirationCodeDate: { type: Date },
 });
 
 export const UserModel = model<IUser>("User", userSchema);

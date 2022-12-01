@@ -18,6 +18,10 @@ export const userService = {
     const result = await usersRepo.deleteUser(id);
     return result;
   },
+  async getUserByCode(code: string) {
+    const result = await usersRepo.getUserByCode(code);
+    return result;
+  },
   async _hashPassword(password: string) {
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);
