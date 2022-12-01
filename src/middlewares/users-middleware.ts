@@ -25,3 +25,4 @@ export const validUser = [
   body("email").matches(reg),
 ];
 export const validUserCode = [body("code").isString().trim().not().isEmpty()];
+export const validUserEmailResending = [body("email").matches(reg)];

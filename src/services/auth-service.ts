@@ -46,4 +46,17 @@ export const authService = {
     const sendEmail = await emailManager.sendEmail(email, confirmCode);
     return result;
   },
+  async resendingEmail(email: string, id: string) {
+    const confirmCode = uuidv4();
+    const newUserRegistration = {
+      confirmCode,
+      expirationCodeDate: add(new Date(), {
+        hours: 1,
+        minutes: 3,
+      }),
+    };
+    const result = await usersRepo.resendEmail(id, newUserRegistration);
+    const sendEmail = await emailManager.sendEmail(email, confirmCode);
+    return result;
+  },
 };

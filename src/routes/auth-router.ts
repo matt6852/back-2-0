@@ -11,6 +11,7 @@ import {
   userInputValidator,
   validUser,
   validUserCode,
+  validUserEmailResending,
 } from "../middlewares/users-middleware";
 import { authService } from "../services/auth-service";
 
@@ -36,7 +37,7 @@ authRouter.post(
   userInputValidator,
   async (req: Request, res: Response) => {
     const { email, password, login } = req.body;
-    const isUserExists = await usersRepo.findUserByEmail(email);
+    const isUserExists = await usersRepo.findUserByEmailOrLogin(email, login);
     if (isUserExists) {
       return res.status(400).send({
         errorsMessages: [
@@ -68,6 +69,27 @@ authRouter.post(
           },
         ],
       });
+    return res.sendStatus(204);
+  }
+);
+authRouter.post(
+  "/registration-email-resending",
+  validUserEmailResending,
+  userInputValidator,
+  async (req: Request, res: Response) => {
+    const { email } = req.body;
+    const isUserExists = await usersRepo.findUserByEmail(email);
+    if (!isUserExists)
+      return res.status(400).send({
+        errorsMessages: [
+          {
+            message: "Invalid value",
+            field: "email",
+          },
+        ],
+      });
+    await authService.resendingEmail(isUserExists.email, isUserExists.id);
+
     return res.sendStatus(204);
   }
 );

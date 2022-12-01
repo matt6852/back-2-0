@@ -45,9 +45,29 @@ export const usersRepo = {
       return null;
     }
   },
+  async findUserByEmailOrLogin(email: string, login: string) {
+    try {
+      const result = await UserModel.findOne({
+        $or: [{ login: login }, { email: email }],
+      });
+      return result;
+    } catch (error) {
+      return null;
+    }
+  },
   async findUserByEmail(email: string) {
     try {
-      const result = await UserModel.findOne({ email });
+      const result = await UserModel.findOne({
+        $and: [{ isConfirmed: false }, { email: email }],
+      });
+      return result;
+    } catch (error) {
+      return null;
+    }
+  },
+  async resendEmail(id: string, content: any) {
+    try {
+      const result = await UserModel.findByIdAndUpdate(id, content);
       return result;
     } catch (error) {
       return null;
