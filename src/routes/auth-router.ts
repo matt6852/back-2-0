@@ -33,11 +33,10 @@ authRouter.post(
       req.body.loginOrEmail,
       req.body.password
     );
-
     if (result) {
       res.cookie("refreshToken", result.refreshToken, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV! === "prod",
       });
       return res.status(200).json(result.accessToken);
     }
@@ -52,7 +51,7 @@ authRouter.post(
     const refreshToken = jwtAuth.createRefreshToken(req.user?.id);
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV! === "prod",
     });
     return res.status(200).json(accessToken);
   }

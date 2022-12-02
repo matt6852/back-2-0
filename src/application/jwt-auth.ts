@@ -6,13 +6,13 @@ import jwt from "jsonwebtoken";
 export const jwtAuth = {
   createToken(id: string) {
     const token = jwt.sign({ id }, process.env.JWT_SECRET!, {
-      expiresIn: "10000",
+      expiresIn: process.env.ACCESS_TOKEN_LIFE!,
     });
     return { accessToken: token };
   },
   createRefreshToken(id: string) {
     const refreshToken = jwt.sign({ id }, process.env.JWT_SECRET!, {
-      expiresIn: "20000",
+      expiresIn: process.env.REFRESH_TOKEN_LIFE!,
     });
     return refreshToken;
   },
