@@ -100,7 +100,7 @@ authRouter.post(
 );
 authRouter.get(
   "/me",
-  // authJWTMiddleware,
+  authJWTMiddleware,
   checkCookies,
   async (req: Request, res: Response) => {
     const me = {
