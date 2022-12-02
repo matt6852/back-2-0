@@ -53,7 +53,7 @@ authRouter.post(
     const refreshToken = jwtAuth.createRefreshToken(req.user?.id);
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      // secure: true,
+      secure: true,
     });
     return res.status(200).json(accessToken);
   }
@@ -100,7 +100,8 @@ authRouter.post(
 );
 authRouter.get(
   "/me",
-  authJWTMiddleware,
+  // authJWTMiddleware,
+  checkCookies,
   async (req: Request, res: Response) => {
     const me = {
       email: req?.user?.email,
