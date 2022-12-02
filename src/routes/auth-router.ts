@@ -93,7 +93,7 @@ authRouter.post(
     const token = req.cookies.refreshToken;
     res.clearCookie("refreshToken");
     await tokensRepo.addExpireTokenToDB(token);
-    return res.send(204);
+    return res.sendStatus(204);
   }
 );
 authRouter.get(
