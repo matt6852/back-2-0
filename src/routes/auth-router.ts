@@ -21,7 +21,6 @@ import {
   validUserEmailResending,
 } from "../middlewares/users-middleware";
 import { authService } from "../services/auth-service";
-import { usersRepo } from "../repo/users/users-repo";
 
 export const authRouter = Router({});
 
@@ -38,7 +37,7 @@ authRouter.post(
     if (result) {
       res.cookie("refreshToken", result.refreshToken, {
         httpOnly: true,
-        // secure: true,
+        secure: true,
       });
       return res.status(200).json(result.accessToken);
     }
@@ -53,7 +52,7 @@ authRouter.post(
     const refreshToken = jwtAuth.createRefreshToken(req.user?.id);
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      // secure: true,
+      secure: true,
     });
     return res.status(200).json(accessToken);
   }
