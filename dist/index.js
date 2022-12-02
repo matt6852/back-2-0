@@ -21,8 +21,10 @@ const posts_router_1 = require("./routes/posts-router");
 const users_router_1 = require("./routes/users-router");
 const deletAll_routet_1 = require("./routes/deletAll-routet");
 const auth_router_1 = require("./routes/auth-router");
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5005;
+app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");

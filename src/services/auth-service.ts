@@ -20,9 +20,10 @@ export const authService = {
     );
 
     if (!correctPassword) return null;
-    const login = jwtAuth.createToken(user?.id);
+    const accessToken = jwtAuth.createToken(user?.id);
+    const refreshToken = jwtAuth.createRefreshToken(user?.id);
 
-    return login;
+    return { accessToken, refreshToken };
   },
 
   async _comparePassword(password: string, hashPassword: string = "") {

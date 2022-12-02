@@ -7,9 +7,11 @@ import { postsRouter } from "./routes/posts-router";
 import { userRouter } from "./routes/users-router";
 import { deleteAll } from "./routes/deletAll-routet";
 import { authRouter } from "./routes/auth-router";
+import cookieParser from "cookie-parser";
 
 const app: Express = express();
 const port = process.env.PORT || 5005;
+app.use(cookieParser());
 app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
