@@ -38,7 +38,7 @@ authRouter.post(
     if (result) {
       res.cookie("refreshToken", result.refreshToken, {
         httpOnly: true,
-        // secure: true,
+        secure: true,
       });
       return res.status(200).json(result.accessToken);
     }
