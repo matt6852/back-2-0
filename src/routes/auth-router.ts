@@ -1,4 +1,3 @@
-import { tokensRepo } from "./../repo/tokenBlackList/tokenBlackList-repo";
 import {
   isCodeValid,
   isEmailOrLoginValid,
@@ -22,6 +21,7 @@ import {
 } from "../middlewares/users-middleware";
 import { authService } from "../services/auth-service";
 import { antiDDoSMiddleware } from "../middlewares/ddos-midleware";
+import { tokensBlackListRepo } from "../repo/tokenBlackList/tokenBlackList-repo";
 
 export const authRouter = Router({});
 
@@ -49,13 +49,13 @@ authRouter.post(
   "/refresh-token",
   checkCookies,
   async (req: Request, res: Response) => {
+    const token = req.cookies.refreshToken;
     const accessToken = jwtAuth.createToken(req.user?.id);
     const refreshToken = jwtAuth.createRefreshToken(req.user?.id);
-    const token = req.cookies.refreshToken;
     if (!token) return res.sendStatus(401);
-    const tokenFromDB = await tokensRepo.findToken(token);
+    const tokenFromDB = await tokensBlackListRepo.findToken(token);
     if (tokenFromDB) return res.sendStatus(401);
-    await tokensRepo.addExpireTokenToDB(token);
+    await tokensBlackListRepo.addExpireTokenToDB(token);
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV! === "prod",
@@ -102,9 +102,9 @@ authRouter.post(
   async (req: Request, res: Response) => {
     const token = req.cookies.refreshToken;
     if (!token) return res.sendStatus(401);
-    const tokenFromDB = await tokensRepo.findToken(token);
+    const tokenFromDB = await tokensBlackListRepo.findToken(token);
     if (tokenFromDB) return res.sendStatus(401);
-    await tokensRepo.addExpireTokenToDB(token);
+    await tokensBlackListRepo.addExpireTokenToDB(token);
     res.clearCookie("refreshToken");
     return res.sendStatus(204);
   }

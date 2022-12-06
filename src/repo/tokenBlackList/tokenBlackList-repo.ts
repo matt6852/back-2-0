@@ -1,6 +1,6 @@
 import { TokenModel } from "../../models/tokenModal";
 
-export const tokensRepo = {
+export const tokensBlackListRepo = {
   async findToken(token: string) {
     try {
       return await TokenModel.findOne({
