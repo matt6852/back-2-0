@@ -22,7 +22,6 @@ commentsRouter.delete(
     const userId = req.user.id;
     const singleComment = await commentsQueryRepo.getSingleComment(id);
     if (!singleComment) return res.sendStatus(404);
-
     const result = await commentsQueryRepo.deleteComment(id, userId);
     if (!result) return res.sendStatus(403);
     return res.sendStatus(204);

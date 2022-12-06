@@ -1,10 +1,6 @@
 import { userService } from "./user-service";
 import { usersRepo } from "../repo/users/users-repo";
-import { blogsRepo } from "../repo/blogs/blogs-repo";
-import { IPost } from "./../models/postModel";
-import { postsRepo } from "../repo/posts/posts-repo";
-import { blogsQueryRepo } from "../repo/blogs/query-blogs-repo";
-import { IUser } from "../models/userModal";
+
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import { add } from "date-fns";
@@ -44,7 +40,7 @@ export const authService = {
       }),
     };
     const result = await usersRepo.createUser(newUserRegistration);
-    const sendEmail = await emailManager.sendEmail(email, confirmCode);
+    await emailManager.sendEmail(email, confirmCode);
     return result;
   },
   async resendingEmail(email: string, id: string) {
@@ -57,7 +53,7 @@ export const authService = {
       }),
     };
     const result = await usersRepo.resendEmail(id, newUserRegistration);
-    const sendEmail = await emailManager.sendEmail(email, confirmCode);
+    await emailManager.sendEmail(email, confirmCode);
     return result;
   },
 };

@@ -21,11 +21,13 @@ import {
   validUserEmailResending,
 } from "../middlewares/users-middleware";
 import { authService } from "../services/auth-service";
+import { antiDDoSMiddleware } from "../middlewares/ddos-midleware";
 
 export const authRouter = Router({});
 
 authRouter.post(
   "/login",
+  antiDDoSMiddleware,
   validCredentials,
   credentialsInputValidator,
   async (req: Request, res: Response) => {
@@ -58,6 +60,7 @@ authRouter.post(
 );
 authRouter.post(
   "/registration",
+  antiDDoSMiddleware,
   validUser,
   userInputValidator,
   isEmailOrLoginValid,
@@ -70,6 +73,7 @@ authRouter.post(
 );
 authRouter.post(
   "/registration-confirmation",
+  antiDDoSMiddleware,
   validUserCode,
   userInputValidator,
   isCodeValid,
@@ -79,6 +83,7 @@ authRouter.post(
 );
 authRouter.post(
   "/registration-email-resending",
+  antiDDoSMiddleware,
   validUserEmailResending,
   userInputValidator,
   isEmailValid,

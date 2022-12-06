@@ -13,6 +13,7 @@ const app: Express = express();
 const port = process.env.PORT || 5005;
 app.use(cookieParser());
 app.use(express.json());
+app.set("trust proxy", true);
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
   // res.send("test");

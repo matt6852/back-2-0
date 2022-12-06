@@ -26,6 +26,7 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || 5005;
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
+app.set("trust proxy", true);
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
     // res.send("test");
