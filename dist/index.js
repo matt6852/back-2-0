@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const device_router_1 = require("./routes/device-router");
 require("dotenv/config");
 const comments_router_1 = require("./routes/comments-router");
 const db_1 = require("./db/db");
@@ -36,6 +37,7 @@ app.use("/posts", posts_router_1.postsRouter);
 app.use("/users", users_router_1.userRouter);
 app.use("/auth", auth_router_1.authRouter);
 app.use("/comments", comments_router_1.commentsRouter);
+app.use("/security", device_router_1.deviceRouter);
 app.use("/testing", deletAll_routet_1.deleteAll);
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, db_1.runDB)();

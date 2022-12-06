@@ -1,3 +1,4 @@
+import { deviceRouter } from "./routes/device-router";
 import "dotenv/config";
 import { commentsRouter } from "./routes/comments-router";
 import { runDB } from "./db/db";
@@ -24,6 +25,7 @@ app.use("/posts", postsRouter);
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
 app.use("/comments", commentsRouter);
+app.use("/security", deviceRouter);
 app.use("/testing", deleteAll);
 
 const start = async () => {
