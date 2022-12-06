@@ -49,10 +49,10 @@ export const checkCookies = async (
   next: NextFunction
 ) => {
   const token = req.cookies.refreshToken;
-  // if (!token) return res.sendStatus(401);
-  // const tokenFromDB = await tokensRepo.findToken(token);
-  // if (tokenFromDB) return res.sendStatus(401);
-  // await tokensRepo.addExpireTokenToDB(token);
+  if (!token) return res.sendStatus(401);
+  const tokenFromDB = await tokensRepo.findToken(token);
+  if (tokenFromDB) return res.sendStatus(401);
+  await tokensRepo.addExpireTokenToDB(token);
   const result = jwtAuth.checkJWT(token);
   if (!result) return res.sendStatus(401);
   const user = await usersRepo.findUserById(result?.id!);
