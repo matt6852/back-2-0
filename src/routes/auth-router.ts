@@ -51,6 +51,11 @@ authRouter.post(
   async (req: Request, res: Response) => {
     const accessToken = jwtAuth.createToken(req.user?.id);
     const refreshToken = jwtAuth.createRefreshToken(req.user?.id);
+    const token = req.cookies.refreshToken;
+    if (!token) return res.sendStatus(401);
+    const tokenFromDB = await tokensRepo.findToken(token);
+    if (tokenFromDB) return res.sendStatus(401);
+    await tokensRepo.addExpireTokenToDB(token);
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV! === "prod",
