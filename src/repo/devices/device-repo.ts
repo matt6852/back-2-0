@@ -6,7 +6,7 @@ export const devicesRepo = {
     return await DeviceModel.create(newDeviceSession);
   },
 
-  async updatedDevice(deviceId: string, lastActiveDate: string) {
+  async updatedDevice(deviceId: string, lastActiveDate: Date) {
     try {
       const result = await DeviceModel.findOneAndUpdate(
         { deviceId },

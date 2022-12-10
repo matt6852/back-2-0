@@ -55,6 +55,7 @@ authRouter.post(
   checkCookies,
   async (req: Request, res: Response) => {
     const token = req.cookies.refreshToken;
+    if (!token) return res.sendStatus(401);
     const accessToken = jwtAuth.createToken(req.user?.user?.id);
     const refreshToken = jwtAuth.createRefreshToken(
       req.user?.user?.id,
@@ -65,8 +66,9 @@ authRouter.post(
       "base64"
     ).toString();
     const metaObj = JSON.parse(metaData);
-    const lastActiveDate = metaObj.iat;
-    if (!token) return res.sendStatus(401);
+    const lastActiveDate = new Date(metaObj.iat * 1000);
+    console.log(lastActiveDate, "lastActiveDate  /refresh-token");
+
     const updateDevice = await devicesRepo.updatedDevice(
       req.user?.deviceId,
       lastActiveDate
