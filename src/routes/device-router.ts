@@ -39,13 +39,11 @@ deviceRouter.delete(
   "/devices",
   checkCookies,
   async (req: Request, res: Response) => {
-    res.send("delete All devices");
-    console.log(req.user);
-
     const deletedAllDevice = await devicesRepo.deleteDeviceExceptOne(
       req.user.deviceId,
       req.user.user.id
     );
+    res.sendStatus(204);
   }
 );
 deviceRouter.delete(

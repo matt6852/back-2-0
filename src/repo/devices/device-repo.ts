@@ -27,8 +27,6 @@ export const devicesRepo = {
   },
   async deleteDeviceExceptOne(deviceId: string, userId: string) {
     try {
-      console.log(deviceId, "deviceId");
-
       const result = await DeviceModel.deleteMany({
         deviceId: { $ne: deviceId },
       });
