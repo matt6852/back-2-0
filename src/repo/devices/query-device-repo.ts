@@ -5,7 +5,6 @@ const mappedDevices = (devices: any) => {
       deviceId: d.deviceId,
       lastActiveDate: d.lastActiveDate,
       ip: d.ip,
-      userId: d.userId,
       title: d.title,
     };
   });
