@@ -120,7 +120,7 @@ authRouter.post(
     const token = req.cookies.refreshToken;
     if (!token) return res.sendStatus(401);
     console.log(req.user?.deviceId);
-    await devicesRepo.deleteDevice(req.user?.deviceId);
+    await devicesRepo.deleteDevice(req.user?.deviceId, req.user?.user.id);
     res.clearCookie("refreshToken");
     return res.sendStatus(204);
   }

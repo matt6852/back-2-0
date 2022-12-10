@@ -54,7 +54,7 @@ export const checkCookies = async (
   if (!result) return res.sendStatus(401);
   const metaData = Buffer.from(token.split(".")[1], "base64").toString();
   const metaObj = JSON.parse(metaData);
-  const lastActiveDate = metaObj.iat;
+  const lastActiveDate = new Date(metaObj.iat * 1000);
   const deviceId = metaObj.deviceId;
   const device = await queryDevicesRepo.findDevice(deviceId, lastActiveDate);
   console.log(device, "device");

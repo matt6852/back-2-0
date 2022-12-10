@@ -33,7 +33,7 @@ export const authService = {
     const metaObj = JSON.parse(metaData);
     const newDeviceSession = {
       deviceId: metaObj?.deviceId,
-      lastActiveDate: metaObj.iat,
+      lastActiveDate: new Date(metaObj.iat * 1000),
       title,
       ip,
       userId: metaObj.id,

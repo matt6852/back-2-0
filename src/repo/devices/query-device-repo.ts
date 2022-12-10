@@ -8,7 +8,7 @@ export const queryDevicesRepo = {
       return null;
     }
   },
-  async findDevice(deviceId: string, lastActiveDate: number) {
+  async findDevice(deviceId: string, lastActiveDate: Date) {
     try {
       return await DeviceModel.findOne({ lastActiveDate, deviceId });
     } catch (error) {
