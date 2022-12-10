@@ -1,3 +1,4 @@
+import { devicesRepo } from "./../repo/devices/device-repo";
 import {
   isCodeValid,
   isEmailOrLoginValid,
@@ -21,6 +22,8 @@ import {
 } from "../middlewares/users-middleware";
 import { authService } from "../services/auth-service";
 import { antiDDoSMiddleware } from "../middlewares/ddos-midleware";
+import { queryDevicesRepo } from "../repo/devices/query-device-repo";
+import { read } from "fs";
 
 export const deviceRouter = Router({});
 
@@ -28,14 +31,8 @@ deviceRouter.get(
   "/devices",
   checkCookies,
   async (req: Request, res: Response) => {
-    res.send("Get ALL Devices");
-    //   const accessToken = jwtAuth.createToken(req.user?.id);
-    //   const refreshToken = jwtAuth.createRefreshToken(req.user?.id);
-    //   res.cookie("refreshToken", refreshToken, {
-    //     httpOnly: true,
-    //     secure: process.env.NODE_ENV! === "prod",
-    //   });
-    //   return res.status(200).json(accessToken);
+    const devices = await queryDevicesRepo.getAllDevices();
+    res.send(devices);
   }
 );
 deviceRouter.delete(
@@ -43,26 +40,26 @@ deviceRouter.delete(
   checkCookies,
   async (req: Request, res: Response) => {
     res.send("delete All devices");
-    // const accessToken = jwtAuth.createToken(req.user?.id);
-    // const refreshToken = jwtAuth.createRefreshToken(req.user?.id);
-    // res.cookie("refreshToken", refreshToken, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV! === "prod",
-    // });
-    // return res.status(200).json(accessToken);
+    console.log(req.user);
+
+    const deletedAllDevice = await devicesRepo.deleteDeviceExceptOne(
+      req.user.deviceId,
+      req.user.user.id
+    );
   }
 );
 deviceRouter.delete(
   "/devices/:id",
   checkCookies,
   async (req: Request, res: Response) => {
-    res.send("delete single device");
-    //   const accessToken = jwtAuth.createToken(req.user?.id);
-    //   const refreshToken = jwtAuth.createRefreshToken(req.user?.id);
-    //   res.cookie("refreshToken", refreshToken, {
-    //     httpOnly: true,
-    //     secure: process.env.NODE_ENV! === "prod",
-    //   });
-    //   return res.status(200).json(accessToken);
+    const deviceId = req.params.id;
+    const exists = await devicesRepo.findByDeviseId(deviceId, req.user.user.id);
+    if (!exists) return res.sendStatus(404);
+    const deletedDevice = await devicesRepo.deleteDevice(
+      deviceId,
+      req.user.user.id
+    );
+    if (!deletedDevice) return res.sendStatus(403);
+    return res.sendStatus(204);
   }
 );

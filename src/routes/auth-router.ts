@@ -1,3 +1,4 @@
+import { devicesRepo } from "./../repo/devices/device-repo";
 import {
   isCodeValid,
   isEmailOrLoginValid,
@@ -31,9 +32,13 @@ authRouter.post(
   validCredentials,
   credentialsInputValidator,
   async (req: Request, res: Response) => {
+    const ip = req.ip;
+    const title = req.headers["user-agent"];
     const result = await authService.loginUser(
       req.body.loginOrEmail,
-      req.body.password
+      req.body.password,
+      ip,
+      title!
     );
     if (result) {
       res.cookie("refreshToken", result.refreshToken, {
@@ -50,12 +55,24 @@ authRouter.post(
   checkCookies,
   async (req: Request, res: Response) => {
     const token = req.cookies.refreshToken;
-    const accessToken = jwtAuth.createToken(req.user?.id);
-    const refreshToken = jwtAuth.createRefreshToken(req.user?.id);
+    const accessToken = jwtAuth.createToken(req.user?.user?.id);
+    const refreshToken = jwtAuth.createRefreshToken(
+      req.user?.user?.id,
+      req.user?.deviceId
+    );
+    const metaData = Buffer.from(
+      refreshToken.split(".")[1],
+      "base64"
+    ).toString();
+    const metaObj = JSON.parse(metaData);
+    const lastActiveDate = metaObj.iat;
     if (!token) return res.sendStatus(401);
-    const tokenFromDB = await tokensBlackListRepo.findToken(token);
-    if (tokenFromDB) return res.sendStatus(401);
-    await tokensBlackListRepo.addExpireTokenToDB(token);
+    const updateDevice = await devicesRepo.updatedDevice(
+      req.user?.deviceId,
+      lastActiveDate
+    );
+    console.log(updateDevice, "updateDevice");
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV! === "prod",
@@ -102,22 +119,21 @@ authRouter.post(
   async (req: Request, res: Response) => {
     const token = req.cookies.refreshToken;
     if (!token) return res.sendStatus(401);
-    const tokenFromDB = await tokensBlackListRepo.findToken(token);
-    if (tokenFromDB) return res.sendStatus(401);
-    await tokensBlackListRepo.addExpireTokenToDB(token);
+    console.log(req.user?.deviceId);
+    await devicesRepo.deleteDevice(req.user?.deviceId);
     res.clearCookie("refreshToken");
     return res.sendStatus(204);
   }
 );
 authRouter.get(
   "/me",
+  checkCookies,
   authJWTMiddleware,
-  // checkCookies,
   async (req: Request, res: Response) => {
     const me = {
-      email: req?.user?.email,
-      login: req?.user?.login,
-      userId: req?.user?.id,
+      email: req?.user?.user?.email,
+      login: req?.user?.user?.login,
+      userId: req?.user?.user?.id,
     };
     res.send(me);
   }

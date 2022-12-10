@@ -1,22 +1,45 @@
 import { BlogModel, IBlog } from "../../models/blogModel";
-import { DeviceModel } from "../../models/deviceModal";
+import { DeviceModel, IDevice } from "../../models/deviceModal";
 
 export const devicesRepo = {
-  async createDevice(newBlog: IBlog) {
-    return await DeviceModel.create(newBlog);
+  async createDevice(newDeviceSession: IDevice) {
+    return await DeviceModel.create(newDeviceSession);
   },
 
-  async updatedDevice(id: string, data: IBlog) {
+  async updatedDevice(deviceId: string, lastActiveDate: string) {
     try {
-      const result = await DeviceModel.findByIdAndUpdate(id, data);
+      const result = await DeviceModel.findOneAndUpdate(
+        { deviceId },
+        { lastActiveDate }
+      );
       return result;
     } catch (error) {
       return null;
     }
   },
-  async deleteDevice(id: string) {
+  async deleteDevice(deviceId: string, userId: string) {
     try {
-      const result = await DeviceModel.findByIdAndDelete(id);
+      const result = await DeviceModel.findOneAndRemove({ deviceId, userId });
+      return result;
+    } catch (error) {
+      return null;
+    }
+  },
+  async deleteDeviceExceptOne(deviceId: string, userId: string) {
+    try {
+      console.log(deviceId, "deviceId");
+
+      const result = await DeviceModel.deleteMany({
+        deviceId: { $ne: deviceId },
+      });
+      return 1;
+    } catch (error) {
+      return null;
+    }
+  },
+  async findByDeviseId(deviceId: string, userId: string) {
+    try {
+      const result = await DeviceModel.findOne({ deviceId, userId });
       return result;
     } catch (error) {
       return null;
