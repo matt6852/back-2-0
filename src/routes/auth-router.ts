@@ -70,8 +70,8 @@ authRouter.post(
     console.log(lastActiveDate, "lastActiveDate  /refresh-token");
 
     const updateDevice = await devicesRepo.updatedDevice(
-      req.user?.deviceId,
-      req.user?.user?._id,
+      metaObj.deviceId,
+      metaObj.id,
       lastActiveDate
     );
     console.log(updateDevice, "updateDevice");
