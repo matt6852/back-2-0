@@ -49,6 +49,9 @@ export const checkCookies = async (
   res: Response,
   next: NextFunction
 ) => {
+  const reqId = req.params.id;
+  console.log(reqId, "reqId");
+
   const token = req.cookies.refreshToken;
   const result = jwtAuth.checkJWT(token);
   if (!result) return res.sendStatus(401);
@@ -59,11 +62,12 @@ export const checkCookies = async (
   console.log(deviceId, "deviceId checkCookies");
   console.log(lastActiveDate, "lastActiveDate checkCookies");
   console.log(metaObj, "metaObj");
-
-  const device = await queryDevicesRepo.findDevice(deviceId);
+  const currentId = reqId ?? deviceId;
+  const device = await queryDevicesRepo.findDevice(currentId);
+  if (!device) return res.sendStatus(404);
+  console.log(device?.userId, "device id");
   console.log(device, "device checkCookies");
   if (metaObj.id !== device?.userId) return res.sendStatus(403);
-  if (!device) return res.sendStatus(404);
   const user = await usersRepo.findUserById(result?.id!);
   req.user = { user, deviceId };
   return next();
