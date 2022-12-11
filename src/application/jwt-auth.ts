@@ -56,9 +56,9 @@ export const checkCookies = async (
   const result = jwtAuth.checkJWT(token);
   if (!result) return res.sendStatus(401);
   const metaData: any = Buffer.from(token.split(".")[1], "base64").toString();
-  // const metaObj = JSON.parse(metaData);
-  const lastActiveDate = new Date(metaData.iat * 1000);
-  const deviceId = metaData.deviceId;
+  const metaObj = JSON.parse(metaData);
+  const lastActiveDate = new Date(metaObj.iat * 1000);
+  const deviceId = metaObj.deviceId;
   console.log(deviceId, "deviceId checkCookies");
   console.log(lastActiveDate, "lastActiveDate checkCookies");
   console.log(metaData, "metaObj");
@@ -67,7 +67,7 @@ export const checkCookies = async (
   if (!device) return res.sendStatus(404);
   console.log(device?.userId, "device id");
   console.log(device, "device checkCookies");
-  if (metaData.id !== device?.userId) return res.sendStatus(403);
+  if (metaObj.id !== device?.userId) return res.sendStatus(403);
   const user = await usersRepo.findUserById(result?.id!);
   req.user = { user, deviceId };
   return next();
