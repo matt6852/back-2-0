@@ -6,11 +6,11 @@ export const devicesRepo = {
     return await DeviceModel.create(newDeviceSession);
   },
 
-  async updatedDevice(deviceId: string, lastActiveDate: Date) {
+  async updatedDevice(deviceId: string, userId: string, lastActiveDate: Date) {
     try {
-      const result = await DeviceModel.findOneAndUpdate(
-        { deviceId },
-        { lastActiveDate }
+      const result = await DeviceModel.updateOne(
+        { deviceId, userId },
+        { $set: { lastActiveDate: lastActiveDate } }
       );
       return result;
     } catch (error) {
