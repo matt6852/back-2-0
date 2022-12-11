@@ -71,7 +71,6 @@ authRouter.post(
 
     const updateDevice = await devicesRepo.updatedDevice(
       req.user?.deviceId,
-
       lastActiveDate
     );
     console.log(updateDevice, "updateDevice");
