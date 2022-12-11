@@ -30,7 +30,7 @@ export const devicesRepo = {
       const result = await DeviceModel.deleteMany({
         deviceId: { $ne: deviceId },
       });
-      return 1;
+      return result;
     } catch (error) {
       return null;
     }
