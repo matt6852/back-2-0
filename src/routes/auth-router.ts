@@ -56,9 +56,9 @@ authRouter.post(
   async (req: Request, res: Response) => {
     const token = req.cookies.refreshToken;
     if (!token) return res.sendStatus(401);
-    const accessToken = jwtAuth.createToken(req.user?.user?.id);
+    const accessToken = jwtAuth.createToken(req.user?.user?._id);
     const refreshToken = jwtAuth.createRefreshToken(
-      req.user?.user?.id,
+      req.user?.user?._id,
       req.user?.deviceId
     );
     const metaData = Buffer.from(
@@ -71,6 +71,7 @@ authRouter.post(
 
     const updateDevice = await devicesRepo.updatedDevice(
       req.user?.deviceId,
+
       lastActiveDate
     );
     console.log(updateDevice, "updateDevice");
