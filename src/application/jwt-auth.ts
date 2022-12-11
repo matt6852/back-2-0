@@ -61,10 +61,9 @@ export const checkCookies = async (
 
   const device = await queryDevicesRepo.findDevice(deviceId, lastActiveDate);
   console.log(device, "device checkCookies");
-
   if (!device) return res.sendStatus(404);
   const user = await usersRepo.findUserById(result?.id!);
-  if (metaObj.user.id !== device.userId) return res.sendStatus(403);
+  if (metaObj.id !== device.userId) return res.sendStatus(403);
   req.user = { user, deviceId };
   return next();
 };
