@@ -22,9 +22,11 @@ export const queryDevicesRepo = {
       return null;
     }
   },
-  async findDevice(deviceId: string, lastActiveDate: Date) {
+  async findDevice(deviceId: string) {
     try {
-      return await DeviceModel.findOne({ lastActiveDate, deviceId });
+      return await DeviceModel.findOne({
+        deviceId,
+      });
     } catch (error) {
       return null;
     }

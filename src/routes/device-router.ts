@@ -51,13 +51,13 @@ deviceRouter.delete(
   checkCookies,
   async (req: Request, res: Response) => {
     const deviceId = req.params.id;
-    // const exists = await devicesRepo.findByDeviseId(deviceId, req.user.user.id);
-    // if (!exists) return res.sendStatus(404);
+    const exists = await devicesRepo.findByDeviseId(deviceId, req.user.user.id);
+    if (req.user.user.id !== exists?.userId) return res.sendStatus(403);
     const deletedDevice = await devicesRepo.deleteDevice(
       deviceId,
       req.user.user.id
     );
-    // if (!deletedDevice) return res.sendStatus(403);
+    if (!deletedDevice) return res.sendStatus(404);
     return res.sendStatus(204);
   }
 );

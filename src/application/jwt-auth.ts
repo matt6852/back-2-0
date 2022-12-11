@@ -58,12 +58,13 @@ export const checkCookies = async (
   const deviceId = metaObj.deviceId;
   console.log(deviceId, "deviceId checkCookies");
   console.log(lastActiveDate, "lastActiveDate checkCookies");
+  console.log(metaObj, "metaObj");
 
-  const device = await queryDevicesRepo.findDevice(deviceId, lastActiveDate);
+  const device = await queryDevicesRepo.findDevice(deviceId);
   console.log(device, "device checkCookies");
+  if (metaObj.id !== device?.userId) return res.sendStatus(403);
   if (!device) return res.sendStatus(404);
   const user = await usersRepo.findUserById(result?.id!);
-  if (metaObj.id !== device.userId) return res.sendStatus(403);
   req.user = { user, deviceId };
   return next();
 };
