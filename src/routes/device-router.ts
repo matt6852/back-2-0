@@ -32,7 +32,6 @@ deviceRouter.get(
   checkCookies,
   async (req: Request, res: Response) => {
     const userId = req.user.user.id;
-
     const devices = await queryDevicesRepo.getAllDevices(userId);
     res.send(devices);
   }
