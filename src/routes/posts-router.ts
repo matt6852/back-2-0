@@ -72,9 +72,9 @@ postsRouter.post(
     const result = await postsQueryRepo.getSinglePost(id);
     if (!result) return res.sendStatus(404);
     const comment: CommentType = {
-      userId: req?.user.id,
+      userId: req?.user?.user.id,
       content: req.body.content,
-      userLogin: req?.user.login,
+      userLogin: req?.user?.user?.login,
       postId: result.id,
     };
     const newComment = await commentsService.createSingComment(comment);

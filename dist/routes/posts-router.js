@@ -58,14 +58,15 @@ exports.postsRouter.get("/:postId/comments", (req, res) => __awaiter(void 0, voi
     return res.send(result);
 }));
 exports.postsRouter.post("/:postId/comments", jwt_auth_1.authJWTMiddleware, comments_middleware_1.validComment, comments_middleware_1.commentInputValidator, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c;
     const id = req.params.postId;
     const result = yield query_posts_repo_1.postsQueryRepo.getSinglePost(id);
     if (!result)
         return res.sendStatus(404);
     const comment = {
-        userId: req === null || req === void 0 ? void 0 : req.user.id,
+        userId: (_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.user.id,
         content: req.body.content,
-        userLogin: req === null || req === void 0 ? void 0 : req.user.login,
+        userLogin: (_c = (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.user) === null || _c === void 0 ? void 0 : _c.login,
         postId: result.id,
     };
     const newComment = yield comments_service_1.commentsService.createSingComment(comment);
