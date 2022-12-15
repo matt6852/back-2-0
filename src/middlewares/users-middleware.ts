@@ -68,7 +68,15 @@ export const isRecoveryCodePasswordValid = async (
     recoveryCode,
     newPassword
   );
-  if (!findUserByCode) return res.sendStatus(400);
+  if (!findUserByCode)
+    return res.status(400).send({
+      errorsMessages: [
+        {
+          message: "Invalid value",
+          field: "recoveryCode",
+        },
+      ],
+    });
   next();
 };
 export const isEmailValid = async (

@@ -117,7 +117,7 @@ authRouter.post(
   isRecoveryCodePasswordValid,
   async (req: Request, res: Response) => {
     const { newPassword, recoveryCode } = req.body;
-    res.send("Set new password");
+    res.sendStatus(204);
   }
 );
 authRouter.post(
