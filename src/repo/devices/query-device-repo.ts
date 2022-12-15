@@ -11,9 +11,9 @@ const mappedDevices = (devices: any) => {
   return result;
 };
 export const queryDevicesRepo = {
-  async getAllDevices() {
+  async getAllDevices(userId: string) {
     try {
-      const res = await DeviceModel.find({});
+      const res = await DeviceModel.find({ userId });
       // const mapped = mappedDevices(res);
       // console.log(mapped);
 
