@@ -63,7 +63,7 @@ export const authService = {
       }),
     };
     const result = await usersRepo.createUser(newUserRegistration);
-    await emailManager.sendEmail(email, confirmCode);
+    await emailManager.sendEmail(email, confirmCode, "email");
     return result;
   },
   async resendingEmail(email: string, id: string) {
@@ -76,7 +76,21 @@ export const authService = {
       }),
     };
     const result = await usersRepo.resendEmail(id, newUserRegistration);
-    await emailManager.sendEmail(email, confirmCode);
+    await emailManager.sendEmail(email, confirmCode, "email");
+    return result;
+  },
+  async recoverPassword(email: string) {
+    const passwordCodeRecovery = uuidv4();
+    const newUserRegistration = {
+      passwordCodeRecovery,
+      expirationCodeRecoveryPassword: add(new Date(), {
+        hours: 1,
+        minutes: 3,
+      }),
+    };
+    // const result = await usersRepo.resendEmail(id, newUserRegistration);
+    const result = await usersRepo.resetPassword(email, newUserRegistration);
+    await emailManager.sendEmail(email, passwordCodeRecovery, "password");
     return result;
   },
 };

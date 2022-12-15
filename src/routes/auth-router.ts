@@ -3,6 +3,8 @@ import {
   isCodeValid,
   isEmailOrLoginValid,
   isEmailValid,
+  isRecoveryCodePasswordValid,
+  setNewPassword,
 } from "./../middlewares/users-middleware";
 import { Router, Request, Response } from "express";
 import {
@@ -94,6 +96,28 @@ authRouter.post(
     const result = await authService.registrationUser(login, email, password);
     if (result) return res.sendStatus(204);
     return res.status(400).send({ errorRegistrationUser: result });
+  }
+);
+authRouter.post(
+  "/password-recovery",
+  antiDDoSMiddleware,
+  validUserEmailResending,
+  userInputValidator,
+  async (req: Request, res: Response) => {
+    const { email } = req.body;
+    const result = await authService.recoverPassword(email);
+    res.sendStatus(204);
+  }
+);
+authRouter.post(
+  "/new-password",
+  antiDDoSMiddleware,
+  setNewPassword,
+  userInputValidator,
+  isRecoveryCodePasswordValid,
+  async (req: Request, res: Response) => {
+    const { newPassword, recoveryCode } = req.body;
+    res.send("Set new password");
   }
 );
 authRouter.post(

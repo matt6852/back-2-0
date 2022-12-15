@@ -14,6 +14,12 @@ export const usersRepo = {
     const result = await UserModel.findById(id);
     return result;
   },
+  async updateUserPassword(id: string, newPassword: string) {
+    const result = await UserModel.findByIdAndUpdate(id, {
+      password: newPassword,
+    });
+    return result;
+  },
   async loginUser(loginOrEmail: string, password: string) {
     try {
       return await UserModel.findOne({
@@ -46,6 +52,17 @@ export const usersRepo = {
       return null;
     }
   },
+  async getUserByRecoveryCodePassword(code: string) {
+    console.log(code, "code");
+
+    try {
+      const result = await UserModel.findOne({ passwordCodeRecovery: code });
+
+      return result;
+    } catch (error) {
+      return null;
+    }
+  },
   async findUserByEmailOrLogin(email: string, login: string) {
     try {
       const result = await UserModel.findOne({
@@ -69,6 +86,14 @@ export const usersRepo = {
   async resendEmail(id: string, content: any) {
     try {
       const result = await UserModel.findByIdAndUpdate(id, content);
+      return result;
+    } catch (error) {
+      return null;
+    }
+  },
+  async resetPassword(email: string, content: any) {
+    try {
+      const result = await UserModel.findOneAndUpdate({ email }, content);
       return result;
     } catch (error) {
       return null;

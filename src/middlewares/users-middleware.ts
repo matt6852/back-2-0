@@ -27,6 +27,15 @@ export const validUser = [
   body("password").isString().isLength({ max: 20, min: 6 }),
   body("email").matches(reg),
 ];
+export const setNewPassword = [
+  body("recoveryCode").isString().trim().not().isEmpty(),
+  body("newPassword")
+    .isString()
+    .trim()
+    .not()
+    .isEmpty()
+    .isLength({ max: 20, min: 6 }),
+];
 export const validUserCode = [body("code").isString().trim().not().isEmpty()];
 
 export const validUserEmailResending = [body("email").matches(reg)];
@@ -47,6 +56,19 @@ export const isCodeValid = async (
         },
       ],
     });
+  next();
+};
+export const isRecoveryCodePasswordValid = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { recoveryCode, newPassword } = req.body;
+  const findUserByCode = await userService.getUserByRecoveryCodePassword(
+    recoveryCode,
+    newPassword
+  );
+  if (!findUserByCode) return res.sendStatus(400);
   next();
 };
 export const isEmailValid = async (

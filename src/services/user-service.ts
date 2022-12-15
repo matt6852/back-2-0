@@ -22,6 +22,21 @@ export const userService = {
     const result = await usersRepo.getUserByCode(code);
     return result;
   },
+  async getUserByRecoveryCodePassword(code: string, newPassword: string) {
+    const result = await usersRepo.getUserByRecoveryCodePassword(code);
+
+    if (result) {
+      const hashPassword = await this._hashPassword(newPassword);
+      const updatedUserPassword = await usersRepo.updateUserPassword(
+        result.id,
+        hashPassword
+      );
+      // console.log(updatedUserPassword, "updatedUserPassword");
+    }
+    // console.log(result, "User Service!!");
+
+    return result;
+  },
   async _hashPassword(password: string) {
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);
