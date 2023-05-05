@@ -13,6 +13,11 @@ import cors from "cors"
 
 const app: Express = express();
 const port = process.env.PORT || 5005;
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(cookieParser());
 app.use(express.json());
 app.set("trust proxy", true);
@@ -20,6 +25,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
   // res.send("test");
 });
+
 
 app.use("/blogs", blogsRouter);
 app.use(
