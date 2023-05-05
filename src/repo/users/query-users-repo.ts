@@ -6,7 +6,6 @@ export const usersQueryRepo = {
     const sortObj: any = {
       [query.sortBy]: query.sortDirection === "desc" ? -1 : 1,
     };
-
     const allUsers = await UserModel.find(
       {
         $or: [
