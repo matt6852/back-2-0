@@ -10,6 +10,28 @@ import { deleteAll } from "./routes/deletAll-routet";
 import { authRouter } from "./routes/auth-router";
 import cookieParser from "cookie-parser";
 import cors from "cors"
+//@ts-ignore
+const allowCors = fn => async (req, res) => {
+  res.setHeader('Access-Control-Allow-Credentials', true)
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  // another common pattern
+  // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  )
+  if (req.method === 'OPTIONS') {
+    res.status(200).end()
+    return
+  }
+  return await fn(req, res)
+}
+
+const handler = (req:Request, res:Response) => {
+  const d = new Date()
+  res.end(d.toString())
+}
 
 const app: Express = express();
 const port = process.env.PORT || 5005;
@@ -19,6 +41,7 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(cookieParser());
+app.use(allowCors);
 app.use(express.json());
 app.set("trust proxy", true);
 app.use((req, res, next)=>{
