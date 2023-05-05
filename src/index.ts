@@ -21,6 +21,11 @@ app.use(function(req, res, next) {
 app.use(cookieParser());
 app.use(express.json());
 app.set("trust proxy", true);
+app.use((req, res, next)=>{
+  app.options('*', cors())
+  next();
+ }
+);
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
   // res.send("test");
@@ -28,14 +33,14 @@ app.get("/", (req: Request, res: Response) => {
 
 
 app.use("/blogs", blogsRouter);
-app.use(
-  cors({
-    credentials: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    origin: ['http://localhost:3000', 'http://localhost:3030', '*'], // whatever ports you used in frontend
-  })
-)
+// app.use(
+//   cors({
+//     credentials: true,
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     origin: ['http://localhost:3000', 'http://localhost:3030', '*'], // whatever ports you used in frontend
+//   })
+// )
 app.use("/posts", postsRouter);
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
