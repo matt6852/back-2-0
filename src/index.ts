@@ -27,7 +27,7 @@ app.use(
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: ['Content-Type', 'Authorization'],
-    origin: ['http://localhost:3000', 'http://localhost:3030'], // whatever ports you used in frontend
+    origin: ['http://localhost:3000', 'http://localhost:3030', '*'], // whatever ports you used in frontend
   })
 )
 app.use("/posts", postsRouter);
