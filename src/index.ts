@@ -12,6 +12,14 @@ import cookieParser from "cookie-parser";
 import cors from "cors"
 
 const app: Express = express();
+app.use(
+  cors({
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: ['http://localhost:3000', 'http://localhost:3030', '*'], // whatever ports you used in frontend
+  })
+)
 const port = process.env.PORT || 5005;
 app.use(cookieParser());
 app.use(express.json());
@@ -23,14 +31,7 @@ app.get("/", (req: Request, res: Response) => {
 
 
 app.use("/blogs", blogsRouter);
-app.use(
-  cors({
-    credentials: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    origin: ['http://localhost:3000', 'http://localhost:3030', '*'], // whatever ports you used in frontend
-  })
-)
+
 app.use("/posts", postsRouter);
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
